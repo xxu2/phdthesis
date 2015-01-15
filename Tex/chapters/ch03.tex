@@ -10,11 +10,11 @@
    E_{d,j} = 
      \begin{cases} A_m S^\prime c_q u_*^b\left(1-\frac{u_{*t}}{u_*}\right)
                    \left(1+\frac{u_{*t}}{u_*}\right)^2
-                   \sum_{i=1}^3 M_{i,j} & \mbox{if $u_* \geq u_{*t}$,} \\
+                   \displaystyle \sum_{i=1}^3 M_{i,j} & \mbox{if $u_* \geq u_{*t}$,} \\
                    0 & \mbox{if $u_* < u_{*t}$.}
      \end{cases}
    \end{equation}
-   where $S^\prime = S \alpha$, $c_q$ is the constant ($=\frac{c_s \rho_air}{g}$), 
+   Where $S^\prime = S \alpha$, $c_q$ is the constant ($=\frac{c_s \rho_air}{g}$), 
    and $b$ is the exponential order, which is 3 in White [1979].
 
    Here we implement the adjoint calculation for three parameters, i.e., 
@@ -24,8 +24,13 @@
    \begingroup
    \allowdisplaybreaks
    \begin{align}
-     \frac{\partial E_{d,j}}{\partial S^\prime} &= \frac{E_{d,j}}{S^\prime} \\
-     \frac{\partial E_{d,j}}{\partial b} &= E_{d,j} \ln{u_*} \\
-     \frac{\partial E_{d,j}}{\partial u_{*t}}  & = 
+     \frac{\partial E_{d,j}}{\partial S^\prime} 
+       &= \frac{E_{d,j}}{S^\prime}\mbox{,} \\
+     \frac{\partial E_{d,j}}{\partial b} 
+       &= E_{d,j} \ln{u_*}\mbox{,} \\
+     \frac{\partial E_{d,j}}{\partial u_{*t}}
+       & = C_j \left[\frac{1}{u_*} - \frac{2u_{*t}}{u_*^2} 
+         + \frac{3u_{*t}^2}{u_*^3}\right] \mbox{.} 
    \end{align}
    \endgroup
+   Where $C_j$ represents $\displaystyle A_m S^\prime c_q u_*^b \sum_{i=1}^{3} M_{i,j}$. 
