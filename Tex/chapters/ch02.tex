@@ -2,5 +2,75 @@
 \chapter{MODELING OF ATMOSPHERIC DUST}
 
 \section{Modeling of Dust Emission}
+
+\subsection{Development of the Wind Speed Distribution}
+
+  In order to incorporate the variability of wind speed due to the subgrid scale
+  circulations, we introduce a probability density function (PDF) of the wind speed
+  within each grid box. The dust emission is computed according to the fraction of 
+  the PDF that exceeds the threshold value:
+  \begin{equation}
+  E_{d} = \int^\infty_{u_{*t}} E(u_*) p(u_*) d u_* \mbox{.}
+  \end{equation}
+  Where $E(u_*)$ is the emission as a function of the surface wind friction velocity,
+  and $p(u_*)$ is the PDF of $u_*$ within the grid box. 
+
+  The PDF for surface wind speeds can be represented by a Weibull distribution 
+  [Justus et al., 1978] and has been used in recent studies [e.g., Grini and Zender,
+  2004; Grini et al., 2005; Ridley et al., 2013] to charaterize the subgrid dust 
+  emissions. The PDF of a Weibull random variable $x$ is described by a shape factor $k$ 
+  and a scale factor $c$:
+  \begin{equation}
+  p(x;c,k) = \frac{k}{c} (x/c )^{k-1}
+         \exp{\left[ -(x/c)^k \right]} \mbox{,  for } x>0 \mbox{.} 
+  \end{equation}
+  One of the advantages in using the Weibull PDF is that it is analytically 
+  integrable with the cumulative distribution function:
+  \begin{equation}
+  P(x \leq x_1;c,k) = 1 - \exp{ \left[ -(x/c)^k\right] } \mbox{.}
+  \end{equation} 
+  Based on above cumulative function, we cut off wind speeds with a minimum and a 
+  maximum wind speed to retain the central 95\% of the wind PDF. As a result, the 
+  lower and upper limits of wind speed are respectively:
+  \begin{align} 
+  x_{l} &= c \left[ \ln{0.975} \right]^{-k}  \\
+  x_{u} &= c \left[ \ln{0.025} \right]^{-k} \label{eq:xu}
+  \end{align}
+
+  Parameters $k$ and $c$ can be estimated from the statistical mean $\bar{x}$ and 
+  variance $\sigma^2$ (of $x$), since they are related to $\bar{x}$ and $\sigma^2$: 
+  \begin{align}
+  \bar{x}  &= c \Gamma(1+1/k)  \\
+  \sigma^2 &= c^2 \left[ \Gamma(1+2/k) - \Gamma^2(1+1/k) \right]  
+  \end{align}
+  Where $\Gamma()$ is a gamma function. According to Justus et al. [1978], $k$ and $c$ 
+  can be best estimated by:
+  \begin{align}
+  k &= (\sigma/\bar{x})^{-1.086} \\
+  c &= \bar{x} \left[ \Gamma(1+1/k) \right]^{-1}
+  \end{align}
+  
+  Thus, the only parameter that must be supplied beyound the mean wind speed is the 
+  variance ($\sigma^2$) of subgrid wind speeds within the grid box. Cakmur et al [2004] 
+  calculated the $\sigma^2$ by incorporating information from the parameterizations of 
+  the planetary boundary layer along with dry and moist convection. Here, we follow 
+  Grini and Zender [2004] and Grini et al [2005] that assumed an approximation of $k$ 
+  based on Justus et al. [1978]:
+  \begin{equation}
+  k = 0.94u_*^{\frac{1}{2}}
+  \end{equation}
+
+  Finally, the dust emission flux is calculated by
+  \begin{equation}
+  E_{d} = A_m S^\prime \left( \displaystyle{\sum_{i=1}^3 M_{i,j}} \right)
+          \frac{c_q}{0.95} 
+          \displaystyle \int_{u_{*t}}^{u_{*u}} 
+          u_*^b\left(1-\frac{u_{*t}}{u_*}\right)
+          \left(1+\frac{u_{*t}}{u_*}\right)^2 
+          p(u_*) d u_* \mbox{.}
+  \end{equation}  
+  Where $u_{*u}$ is the upper limit of wind speed determined by equation \ref{eq:xu}.
+  
+
 \section{Modeling of Dust Transport and Deposition}
 
