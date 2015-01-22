@@ -4,18 +4,16 @@
 \section{GEOS-Chem Adjoint}
 \section{Implement Adjoint of DEAD}
 
-   According to the physical processes described in the section xxx, the total
-   vertical mass flux of dust into transport bin $j$ is 
+   In simple, The dust emission flux considering subgrid wind speeds in equation 
+   (\ref{eq:Edp}) can be writen
    \begin{equation}
-   E_{d,j} = 
-     \begin{cases} A_m S^\prime c_q u_*^b\left(1-\frac{u_{*t}}{u_*}\right)
-                   \left(1+\frac{u_{*t}}{u_*}\right)^2
-                   \displaystyle \sum_{i=1}^3 M_{i,j} & \mbox{if $u_* \geq u_{*t}$,} \\
-                   0 & \mbox{if $u_* < u_{*t}$.}
-     \end{cases}
+   E_{d,j} = C_j S^\prime \int^{u_{*u}}_{u_{*t}} Q_s(u_*,u_{*t},b) p(u_*) d u_* \mbox{,}
    \end{equation}
-   Where $S^\prime = S \alpha$, $c_q$ is the constant ($=\frac{c_s \rho_air}{g}$), 
-   and $b$ is the exponential order, which is 3 in White [1979].
+   where $S^\prime = S \alpha$, and $C_j=A_m \displaystyle \sum_{i=1}^3 M_{i,j}$. We combine
+   the erodibility $S$ and sandblasting factor $\alpha$, because both of them not only are 
+   related to the soil texture but also describe the strength efficiency of dust emission. 
+   Given the the state of land surface and the properties of surface soil, the dust emission
+   is a function of $S^\prime$, $b$, and $u_{*t}$. 
 
    Here we implement the adjoint calculation for three parameters, i.e., 
    $S^\prime$, $b$, and $u_{*t}$. This implementation reqiures the partial
@@ -27,10 +25,21 @@
      \frac{\partial E_{d,j}}{\partial S^\prime} 
        &= \frac{E_{d,j}}{S^\prime}\mbox{,} \\
      \frac{\partial E_{d,j}}{\partial b} 
-       &= E_{d,j} \ln{u_*}\mbox{,} \\
+       &= C_j S^\prime \int^{u_{*u}}_{u_{*t}} 
+          \frac{\partial Q_s}{\partial b} p(u_*) d u_* \mbox{,} \label{eq:dEdb}\\
      \frac{\partial E_{d,j}}{\partial u_{*t}}
-       & = C_j \left[\frac{1}{u_*} - \frac{2u_{*t}}{u_*^2} 
-         + \frac{3u_{*t}^2}{u_*^3}\right] \mbox{.} 
+       & = C_j S^\prime \int^{u_{*u}}_{u_{*t}} 
+          \frac{\partial Q_s}{\partial u_{*t}} p(u_*) d u_* \mbox{.} \label{eq:dEdut}
    \end{align}
    \endgroup
-   Where $C_j$ represents $\displaystyle A_m S^\prime c_q u_*^b \sum_{i=1}^{3} M_{i,j}$. 
+   These gradients of $Q_s$ in equations (\ref{eq:dEdb} and \ref{eq:dEdut}) can be 
+   calculated by
+   \begingroup
+   \allowdisplaybreaks
+   \begin{align}
+   \frac{\partial Q_s}{\partial b} &= Q_s(u_*,u_{*t},b) \ln{u_*} \\
+   \frac{\partial Q_s}{\partial u_{*t}} &=\frac{c_s \rho}{g} u_*^b
+         \left[\frac{1}{u_*} - \frac{2u_{*t}}{u_*^2} 
+         - \frac{3u_{*t}^2}{u_*^3}\right] 
+   \end{align}
+   \endgroup

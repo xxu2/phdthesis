@@ -3,6 +3,53 @@
 
 \section{Modeling of Dust Emission}
 
+\subsection{Physical Parameterization of the Dust Emission}
+
+  The dust emission, aerolian wind erosion that results in production of mineral aerosols
+  from soil grains, involves complex and nonlinear processes that are governed by the 
+  meteorology as well as by the state and properties of the land surfaces. Laboratory 
+  [Iversen and White, 1982] and field [Shao et al., 1996; Zender et al., 2003] wind tunnel
+  studies suggested that dust is primiarily injected into the atmosphere during the 
+  sandblasting caused by the saltation bombardment [Alfaro and Gomes, 2001; Grini et al.,
+  2002]. The clay- and silt-sized soil particles have strong inter-cohesive force... 
+  The saltation of sand-sized particles ... requires least threshold of wind speed...
+
+
+  The most important factors include wind friction velocity and its threshold for 
+  saltation, vegetation cover, soil minerology, and surface soil moisture. 
+
+  In this study, the physical parameterization of dust emission is taken from a Dust 
+  Entrainment and Deposition (DEAD) model developed by Zender et al [2003a]. The DEAD scheme
+  calculates the wind friction threshold ($u_{*t}$) as a function of the Reynolds number 
+  following Iversen and White [1982] and Marticorena and Bergametti [1995]. Three processes 
+  are also considered to modify the $u_{*t}$: the drag partitioning owing to the momentum 
+  captured by nonerodible roughness elements, the Owen effect, and moisture inhition. The 
+  horizontal saltation flux ($Q_s$) that is defined as the vertical integral of the 
+  stream-wise soil flux density is calculated following the theory of White [1979]:
+  \begin{equation}
+  Q_s(u_*,u_{*t}) = \frac{c_s \rho}{g} u_*^3
+        \left(1-\frac{u_{*t}}{u_*}\right)
+        \left(1+\frac{u_{*t}}{u_*}\right)^2 \mbox{,}
+  \end{equation}
+  where, $c_s=2.61$, $\rho$ is the air density at surface level, and $u*$ is the wind 
+  friction velocity. Thus, it assumes the saltaion flux is quasi-lienarly the $u_*^3$ when
+  $u_*$ exceeds the $u_{*t}$. It also neglect the dependence of total $Q_s$ on the soil size. 
+
+  the total
+   vertical mass flux of dust into transport bin $j$ is
+   \begin{equation} \label{eq:Ed}
+   E_{d,j} = 
+     \begin{cases} T_0 A_m S \alpha Q_s
+                   \displaystyle \sum_{i=1}^3 M_{i,j} & \mbox{if $u_* \geq u_{*t}$,} \\
+                   0 & \mbox{if $u_* < u_{*t}$,}
+     \end{cases}
+   \end{equation}
+   where, $T_0$ is a tuning factor chosen to adjust the global amount, $A_m$ is the fraction
+   of bare solil exposed in a model grid cell, $S$ is called "erodiblity" or "perferential 
+   source function", $\alpha$ is the sandblasting mass efficiency factor which depends on the
+   mass fraction of clay particles in the parent soil, and $M_{i,j}$ indicates the mass 
+   fraction of \textit{i}th source mode carried into the \textit{j}th transport mode.
+
 \subsection{Development of the Wind Speed Distribution}
 
   In order to incorporate the variability of wind speed due to the subgrid scale
@@ -30,11 +77,11 @@
   P(x \leq x_1;c,k) = 1 - \exp{ \left[ -(x/c)^k\right] } \mbox{.}
   \end{equation} 
   Based on above cumulative function, we cut off wind speeds with a minimum and a 
-  maximum wind speed to retain the central 95\% of the wind PDF. As a result, the 
+  maximum wind speed to retain the central 98\% of the wind PDF. As a result, the 
   lower and upper limits of wind speed are respectively:
   \begin{align} 
-  x_{l} &= c \left[ \ln{0.975} \right]^{-k}  \\
-  x_{u} &= c \left[ \ln{0.025} \right]^{-k} \label{eq:xu}
+  x_{l} &= c \left[ -\ln{0.99} \right]^{\frac{1}{k}}  \\
+  x_{u} &= c \left[ -\ln{0.01} \right]^{\frac{1}{k}} \label{eq:xu}
   \end{align}
 
   Parameters $k$ and $c$ can be estimated from the statistical mean $\bar{x}$ and 
@@ -61,15 +108,15 @@
   \end{equation}
 
   Finally, the dust emission flux is calculated by
-  \begin{equation}
-  E_{d} = A_m S^\prime \left( \displaystyle{\sum_{i=1}^3 M_{i,j}} \right)
-          \frac{c_q}{0.95} 
+  \begin{equation} \label{eq:Edp}
+  E_{d,j} = A_m S \alpha \left( \displaystyle{\sum_{i=1}^3 M_{i,j}} \right)
+          \frac{c_s \rho}{g}
           \displaystyle \int_{u_{*t}}^{u_{*u}} 
           u_*^b\left(1-\frac{u_{*t}}{u_*}\right)
           \left(1+\frac{u_{*t}}{u_*}\right)^2 
           p(u_*) d u_* \mbox{.}
   \end{equation}  
-  Where $u_{*u}$ is the upper limit of wind speed determined by equation \ref{eq:xu}.
+  Where $u_{*u}$ is the upper limit of wind speed determined by equation (\ref{eq:xu}).
   
 
 \section{Modeling of Dust Transport and Deposition}
