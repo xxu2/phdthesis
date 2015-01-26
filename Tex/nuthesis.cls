@@ -184,7 +184,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
 
 \newenvironment{copyrightpage}[1][Copyright]{%
   \begin{center}%
-    \MakeUppercase{#1}\\
+    \normalfont\bfseries \MakeUppercase{#1}\\
     \copyright{} \nu@year, \theauthor%
   \end{center}%
   \ifthenelse{\boolean{nu@single}}{\begin{singlespacing}}{\begin{doublespacing}}%
@@ -194,7 +194,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
 
 \newenvironment{dedication}[1][Dedication]{%
   \begin{center}%
-    \MakeUppercase{#1}%
+    \normalfont\bfseries \MakeUppercase{#1}%
   \end{center}%
   \ifthenelse{\boolean{nu@single}}{\begin{singlespacing}}{\begin{doublespacing}}%
     }{\par%
@@ -203,7 +203,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
 
 \newenvironment{acknowledgments}[1][Acknowledgments]{%
   \begin{center}
-    \MakeUppercase{#1}
+    \normalfont\bfseries \MakeUppercase{#1}
   \end{center}
   \ifthenelse{\boolean{nu@single}}{\begin{singlespacing}}{\begin{doublespacing}}%
     }{\par%
@@ -212,7 +212,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
 
 \newenvironment{grantinfo}[1][Grant Information]{%
   \begin{center}
-    \MakeUppercase{#1}
+    \normalfont\bfseries \MakeUppercase{#1}
   \end{center}
   \ifthenelse{\boolean{nu@single}}{\begin{singlespacing}}{\begin{doublespacing}}%
     }{\par%

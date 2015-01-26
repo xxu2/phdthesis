@@ -16,9 +16,9 @@
 \titleformat{\chapter} % command
 	[display] % shape
 	{\normalfont\bfseries \centering \vspace{-2ex}} % format
-	{\normalfont\Large\MakeUppercase{\chaptertitlename} 
+	{\normalfont\large\MakeUppercase{\chaptertitlename} 
      \MakeUppercase{\thechapter} }
-	{0.5em}{\Large \centering \MakeUppercase}
+	{0.5em}{\large \centering \MakeUppercase}
 
 %% Makes things look better
 \usepackage{microtype}
@@ -32,6 +32,13 @@
 
 %% Be able to include graphicsx
 \usepackage{graphicx}
+
+%% For spacing
+\usepackage{setspace}
+
+%% Natbib for reference
+\usepackage[square]{natbib}
+\renewcommand{\bibname}{REFERENCES}
 
 %% I like darker colors
 \usepackage{color}
@@ -64,7 +71,7 @@ pdfpagelabels% This helps to fix the issue with hyperref with page numbering
 %% frontmatter is needed to set the page numbering correctly
 \frontmatter
 
-\title{Adjoint Inversion of Atmospheric Dust Sources  \\ from Multi-Sensor Satellite Observations}
+\title{Adjoint Inversion of Atmospheric Dust Sources  \\ from Satellite Observations}
 \author{Xiaoguang Xu}
 \adviser{Professor Jun Wang}
 \adviserAbstract{Jun Wang}
@@ -109,8 +116,14 @@ pdfpagelabels% This helps to fix the issue with hyperref with page numbering
 
 %% Optional
 \begin{dedication}
-  To my parents, wife, sons, and friends for providing the unwavering 
-  encouragement and support that allowed me to accomplish my goal.
+  \begin{center}
+  \vskip1in
+  To the memory of my grandparents \\
+  \vskip0.2in
+  \textbf{Zhaoxiang Xu} \\
+  and  \\
+  \textbf{Shi Zhao Xu}
+  \end{center}
 \end{dedication}
 
 %% Optional
@@ -134,8 +147,10 @@ pdfpagelabels% This helps to fix the issue with hyperref with page numbering
 %% The ToC is required
 \tableofcontents
 %% Uncomment these if need be
+\begin{onehalfspacing}
 \listoffigures
 \listoftables
+\end{onehalfspacing}
 
 %% mainmatter is needed after the ToC, (LoF, and LoT) to set the
 %% page numbering correctly for the main body
@@ -228,11 +243,13 @@ preceded by an actual thesis.
 
 %% Bibliography goes here (You better have one)
 %% BibTeX is your friend
-\bibliographystyle{plain}
-\bibliography{thesisreference}
+\begin{onehalfspacing}
+\bibliographystyle{agu08}
+\bibliography{phdthesis}
+\end{onehalfspacing}
 %% Pull in all the entries in the bibtex file. Is is a useful trick to
 %% check all your references.
-\nocite{*}
+%\nocite{*}
 
 %% Index go here (if you have one)
 
