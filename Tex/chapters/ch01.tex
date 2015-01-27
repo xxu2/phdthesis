@@ -1,10 +1,33 @@
 % Chapter one
 
-\chapter{INTRODUCTION}
+\chapter{Introduction}
 
 \section{Background and Motivation}
 
-\subsection{Impacts of Atmospheric Dust Aerosol}
+ Mineral dust represents the second productive component of atmospheric aerosol 
+ following after the sea-salt aerosol \citep{textor06}. Naturally, these mineral 
+ particles are produced mainly by the aerolian wind ersion in arid and semiarid areas.     
+ Anthropogenic sources of mineral aerosols include road dust and mineral dust due to land 
+ changes by human activities [References check with my proposal]. Mineral aerosols can place
+ important impacts on the Earth system through interations with atmospheric chemistry, 
+ solar and terrestrial radiaton, clouds, and biosphere \citep{shao11}. 
+ An accurate representation of dust cycle in the Earth climate model is thus critical 
+ to assess these impacts. However, significant uncertainties prevail in quantifying 
+ mineral dust sources due to poor understanding of dust uplifting mechanisms and the 
+ lack of in situ measurements over the desert region. 
+
+ Parameterization of processes such as saltation bombardment and sandblasting in a 
+ chemistry transport model (CTM) requires knowledge of many parameters that are 
+ poorly characterized, including surface wind speed, soil moisture, soil texture, 
+ and surface state \citep{tegen94,ginoux01,zender03a}. Not surprisingly, recent 
+ estimates in CTMs span from a few hundreds to over 4000 Tg for annual global 
+ dust emissions \citep{huneeus11} and can vary by a factor as large as 10 at 
+ regional scales for the same dust event(s) \citep{uno06}. An observation-based 
+ approach, therefore, is needed to reduce these large uncertainties in estimate of 
+ dust emissions and further improve the global modeling of atmospheric dust distribution 
+ and their impacts.
+
+\subsection{Impacts of dust aerosols}
 
 Atmospheric aerosols play a crucial role in the global 
 climate change. They affect earth energy budget directly 
@@ -39,16 +62,56 @@ aerosol microphysical properties from different platforms
 are thus highly needed [Mishchenko et al., 2004], and 
 the focus of this two-part series study is the 
 characterization of aerosol properties from ground-based 
-passive remote sensing %citep{henze2007}. 
+passive remote sensing \citep{henze07}. 
 
-\subsection{Dust Emission and its Parameterizations}
+\subsection{Parameterizations of dust emissions}
+
+\subsection{Observations of dust aerosols}
+
+ In the last decade, the in situ and satellite remote sensing observations 
+ have greatly enhanced our understanding of the spatiotemporal variations
+ of dust aerosols. 
+
+\subsection{Recent inverse modeling studies for improving dust emission}
+
+ In parallel with the advancement of in situ and remote sensing observations 
+ of dust aerosols, techniques have been developed to use these observations 
+ as constraints on dust sources.
 
 \citet{koven08} have investigated ...
 
-Source function can be estimated based topography \citep{ginoux01}, 
-
-\subsection{Observations of Dust from Space}
+ Source function can be estimated based topography \citep{ginoux01}, 
 
 \section{Main Goals of This Work}
 
+ Based on the preceding discussions, this work aims at improved estimates of 
+ global dust emissions through adjoint integration of AOD retrievals 
+ from multiple satellite platforms (MODIS and MISR) with a CTM (GEOS-Chem). 
+ The overall goal is to conduct the satellite-based global model estimates 
+ of atmospheric dust distribution, and thereby advance the understanding of 
+ the impacts of atmospheric mineral dust on climate change and air quality. 
+ To accomplish this goal, this work pursues the following specific objectives:
+ \begin{itemize}
+ \item Develop a top-down numerical inversion scheme for constraining global dust emissions with a combined use of multi-platform AOD products and CTM adjoint, which also includes the sensitivity and error budget analysis for the optimization.
+ \item Apply the inversion scheme developed in step 1 for a one year (i.e. 2008) of dust emissions with level 3 quality-controlled MODIS DB and MISR AOD products.
+ \item A long-term (from 2001 to 2010) analysis of dust emissions will follow, along with studies on the seasonal and inter-annual variability of dust emissions, loadings, and direct radiative effects.
+ \item Wherever possible, ground-based and field data will be used to validate and analyze the uncertainties of the inversion results.
+ \end{itemize}
+Although the adjoint optimization technique we use is similar to that in Dubovik et
+al. [2008] and Yumimoto et al. [2007], this study differs from the those previous studies in that: (a) Multi-platform AOD products utilized to optimize dust emissions can provide tremendous dust information in fine spatial and temporal scales; (b) This study uses the satellite AOD retrievals only over and near dust source regions where dust has been transported a short distance with minimal influence of precipitation and anthropogenic
+aerosols; (c) Optimization of the long-term dust emissions is conducted for every grid box as a function of time (e.g., on the weekly or month scale). Although the criteria for separation of a natural and anthropogenic dust source is not clear and sometime controversial in the literature [Denman et al., 2007], especially when considering the climatic feedback on dust emissions [Zhang et al., 2002], we believe that satellite-based optimization of global dust emissions in the last decade could improve our modeling of dust radiative forcing and potentially illuminate anthropogenic components of dust sources and loadings, currently estimated at 0-20\% though values as large as 50\% has been postulated [Ginoux et al., 2011; Tegen et al., 1996; 2004; Mahowald et al., 2004,].
+
 \section{Organization of This Dissertation}
+
+ We describe the GEOS-Chem simulation of mineral dust in Chapter 2 with emphersizing the 
+ physical parameterization of dust sources, after which we present the implements for the 
+ AOD observation operator and the adjoint capacity of dust emission within the GEOS-Chem
+ ajoint model in Chapter 3. In chapter 4, we present a case study on optimizing the dust 
+ emission estimates from the satellite (MODIS) radiances over the eastern Asia, 
+ in which we also attempt to 
+ simutaneously constrain the anthropogenic emissions of the \ce{SO2}, \ce{NO2}, \ce{NH3}, 
+ and carboneous aerosols tegether with the dust aerosols. In chapter 5, we optimize the 
+ dust source parameterization from multi-satellite AOD products, particularly in improving 
+ the the estimates of soil erodibility and wind friction threshold for sand saltation over 
+ the northern Africa. Finally, we summarize the dissertation and outlook future work in 
+ Chapter 6. 

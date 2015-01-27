@@ -1,0 +1,57 @@
+\chapter{Some Tables and Figures}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{ll}\toprule
+    First & Last \\ \midrule
+    Ned & Hummel \\
+    Ned & Hummel \\
+    Ned & Hummel \\ \bottomrule
+  \end{tabular}
+  \caption{Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus,
+Laviniaque venit litora, multum ille et terris iactatus et alto vi
+superum saevae memorem Iunonis ob iram}
+  \label{tab:tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+
+  \begin{compactitem}[\checkmark]
+    \item Foo
+    \item Foo
+    \item Foo
+    \end{compactitem}
+
+  \caption{Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus,
+Laviniaque venit litora, multum ille et terris iactatus et alto vi
+superum saevae memorem Iunonis ob iram}
+  \label{tab:list}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=3in]{figures/unl}
+  \caption{Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus,
+Laviniaque venit litora, multum ille et terris iactatus et alto vi
+superum saevae memorem Iunonis ob iram}
+  \label{fig:test}
+\end{figure}
+
+\chapter{Some Math}\label{chap:math}
+
+This is a triviality, but we include it for completeness.
+\begin{equation}
+\int_0^\infty f(x) \, dx =
+\begin{cases} 1 & \mbox{if $f=\delta$,} \\
+0 & \mbox{if $f=0$.} \end{cases}
+\end{equation}
+
+Here is an aligned set of equations.
+\begin{align}
+f(x) &= f(x) \cdot 1 \\
+     &= f(x) \cdot (2-1)\label{eq:fun}\\
+     &= f(x)
+\end{align}
+
+The clever step is~\eqref{eq:fun}.

@@ -4,12 +4,19 @@
 %% Needed to typset the math in this sample
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{bm}
 
 %% Let's use a different font
 \usepackage[sc,osf]{mathpazo}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{mathptmx}
+
+%% superscript and subscript
+\usepackage{fixltx2e}
+
+%% To support chemical formula e.g. \ce{SO2}
+\usepackage[version=3]{mhchem}
 
 % Heading font size
 \usepackage{titlesec}
@@ -38,7 +45,7 @@
 
 %% Natbib for reference
 \usepackage[square]{natbib}
-\renewcommand{\bibname}{REFERENCES}
+\renewcommand{\bibname}{References}
 
 %% I like darker colors
 \usepackage{color}
@@ -159,74 +166,12 @@ pdfpagelabels% This helps to fix the issue with hyperref with page numbering
 %% Thesis goes here
 
 % Chapters
-\include{./chapters/ch01}
-\include{./chapters/ch02}
-\include{./chapters/ch03}
-%\chapter{ADJOINT MODELING DEVELOPMENT}
-%include{./chapters/ch04}
-%\chapter{OPTIMIZING THE EMISSION ESTIMATES}
-%include{./chapters/ch05}
-%\chapter{OPTIMIZING THE SOURCE PARAMETERIZATION}
-%include{./chapters/ch06}
-%\chapter{CONCLUSIONS}
-
-\chapter{Some Tables and Figures}
-
-\begin{table}[h]
-  \centering
-  \begin{tabular}{ll}\toprule
-    First & Last \\ \midrule
-    Ned & Hummel \\
-    Ned & Hummel \\
-    Ned & Hummel \\ \bottomrule
-  \end{tabular}
-  \caption{Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus,
-Laviniaque venit litora, multum ille et terris iactatus et alto vi
-superum saevae memorem Iunonis ob iram}
-  \label{tab:tabular}
-\end{table}
-
-\begin{table}[h]
-  \centering
-
-  \begin{compactitem}[\checkmark]
-    \item Foo
-    \item Foo
-    \item Foo
-    \end{compactitem}
-
-  \caption{Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus,
-Laviniaque venit litora, multum ille et terris iactatus et alto vi
-superum saevae memorem Iunonis ob iram}
-  \label{tab:list}
-\end{table}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=3in]{figures/unl}
-  \caption{Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus,
-Laviniaque venit litora, multum ille et terris iactatus et alto vi
-superum saevae memorem Iunonis ob iram}
-  \label{fig:test}
-\end{figure}
-
-\chapter{Some Math}\label{chap:math}
-
-This is a triviality, but we include it for completeness.
-\begin{equation}
-\int_0^\infty f(x) \, dx =
-\begin{cases} 1 & \mbox{if $f=\delta$,} \\
-0 & \mbox{if $f=0$.} \end{cases}
-\end{equation}
-
-Here is an aligned set of equations.
-\begin{align}
-f(x) &= f(x) \cdot 1 \\
-     &= f(x) \cdot (2-1)\label{eq:fun}\\
-     &= f(x)
-\end{align}
-
-The clever step is~\eqref{eq:fun}.
+\include{./chapters/ch01} %% Introduction
+\include{./chapters/ch02} %% Modeling of Atmospheric Dust
+\include{./chapters/ch03} %% Adjoint Modeling Developments
+\include{./chapters/ch04} %% Optimizing the Dust Emission Estimates
+\include{./chapters/ch05} %% Optimizing the Dust Source Parameterization
+\include{./chapters/ch06} %% Summary and Outlook 
 
 %% backmatter is needed at the end of the main body of your thesis to
 %% set up page numbering correctly for the remainder of the thesis
@@ -235,11 +180,8 @@ The clever step is~\eqref{eq:fun}.
 %% Start the correct formatting for the appendices
 \appendix
 
-\chapter{Testing, 1, 2, 3, \ldots}
-
-This has been a test of the thesis typesetting system.
-Had this been an actual thesis, this would have been
-preceded by an actual thesis.
+\chapter{Abbreviations and Acronyms}
+\chapter{Symbols}
 
 %% Bibliography goes here (You better have one)
 %% BibTeX is your friend

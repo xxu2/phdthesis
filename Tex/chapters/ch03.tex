@@ -1,8 +1,41 @@
 % Chapter 3
-\chapter{ADJOINT MODELING DEVELOPMENT}
+\chapter{Adjoint Inversion of Dust Emissions}
+
+\section{The Inversion Framework}
+
+ Let $\mathbf{x}$ denote a state vector of $n$ parameters to be constrained 
+ and $\mathbf{y}$ an observation vector assembled by $m$ measurements, 
+ and let $\mathbf{F}$ indicate a forward model that describes the physics of
+ the measurement process. Then, we can express the relationship between
+ the observation vector and the state vector as
+ \begin{equation}
+ \mathbf{y} = \mathbf{F}(\mathbf{x}) + \boldsymbol{\epsilon} \mbox{,}
+ \end{equation}
+ where $\boldsymbol{\epsilon}$ is an experimental error term that includes
+ observation noise and forward modeling uncertainty. 
+
+ For this work, the observation vector $\mathbf{y}$ comprises aerosol mass 
+ cocentrations or aerosol optical depth (AOD).  
 
 \section{GEOS-Chem Adjoint}
-\section{Implement Adjoint of DEAD}
+
+ The GES-Chem adjoint model was specifically developed for \ldots \citep{henze07,henze09}.
+ It has been widely used to \ldots [references\ldots]. 
+
+ It caluclates the adjoint, or the transpose of Jacobian matrix of receptor with respect 
+ to the state vector, following the \ldots
+
+ Based on the infrastructure of GEOS-Chem, we need to develope (1) an observation operator 
+ that maps the aerosol concentration into the observation space, (2) the capacity of 
+ calculating the adjoint with respect to dust emission flux, and (3) the capacity of 
+ calculating the adjoint with respect to parameters in dust emission scheme. 
+
+\section{Implements of AOD observation operator}
+
+Two types of observation operator
+
+\section{Implements of Adjoint for Dust Emissions}
+\section{Implements of Adjoint for Dust Flux Parameterization}
 
    In simple, The dust emission flux considering subgrid wind speeds in equation 
    (\ref{eq:Edp}) can be writen
