@@ -1,23 +1,125 @@
 % Chapter 3
 \chapter{Adjoint Inversion of Dust Emissions}
 
-\section{The Inversion Framework}
+ \textit{Overview} \hspace{0.2cm}
+
+\section{The Adjoint Inversion Framework}
+
+ The adjoint of the GEOS-Chem model was developed specifically 
+ for inverse modeling of aerosol (or their precursors) 
+ and gas emissions \citep{henze07,henze09}, 
+ and it is continuously improved and maintained 
+ by the GEOS-Chem Adjoint and Data Assimilation 
+ Working Group and its users 
+ (\url{http://wiki.seas.harvard.edu/geos-chem/index.php/GEOS-Chem_Adjoint}). 
+ The strength of the adjoint model is 
+ its ability to efficiently calculate model sensitivities 
+ with respect to large sets of model parameters, 
+ such as aerosol emissions at each grid box. 
+ These sensitivities can serve as the gradients needed for 
+ inverse modeling of aerosol emissions. 
+ Recent studies have used the GEOS-Chem adjoint with 
+ satellite observations to constrain sources of species 
+ such as \ce{CO} \citep{kopacz09,kopacz10,jiang11}, 
+ \ce{CH4} \citep{,wecht12}, and \ce{O3} \citep{parrington12}
+ to diagnose source regions for long-range transport \citep{henze09,kopacz11}, 
+ and to provide guidance on future geostationary observations 
+ of surface air quality \citep{zoogman11}.
+
+ \subsection{Inversion strategy}
 
  Let $\mathbf{x}$ denote a state vector of $n$ parameters to be constrained 
  and $\mathbf{y}$ an observation vector assembled by $m$ measurements, 
  and let $\mathbf{F}$ indicate a forward model that describes the physics of
  the measurement process. Then, we can express the relationship between
  the observation vector and the state vector as
- \begin{equation}
- \mathbf{y} = \mathbf{F}(\mathbf{x}) + \boldsymbol{\epsilon} \mbox{,}
+ \begin{equation} \label{eq:fx}
+ \mathbf{y} = \mathbf{F}(\mathbf{x}) + \bdeps \mbox{,}
  \end{equation}
- where $\boldsymbol{\epsilon}$ is an experimental error term that includes
+ where $\bdeps$ is an experimental error term that includes
  observation noise and forward modeling uncertainty. 
 
- For this work, the observation vector $\mathbf{y}$ comprises aerosol mass 
- cocentrations or aerosol optical depth (AOD).  
+ For this work, the observation 
+ vector $\mathbf{y}$ comprises measurements of 
+ aerosol loading, such as mass concentrations or optical depth, at any temporal 
+ and spatial scale. The components of the sate vector $\mathbf{x}$ could vary 
+ according to our inversion focus. For the inversion of aerosol emission estimats 
+ (as in the Chapter \ref{chap:optems}), 
+ $\mathbf{x}$ comprises the emission fluxes (or their scaling factors) of defined 
+ aerosol species within each grid cell of specified temporal resolution. 
+ In constrast, $\mathbf{x}$ consists of 
+ dust emitting parameters (or their scaling factors) when we tend to constrain 
+ the dust emission parameterization (as in the Chapter \ref{chap:optdead}). 
+ The forward model $\mathbf{F}$ 
+ represents the GEOS-Chem that maps parameters from the state space to the 
+ observation space. The inversion of the state vector from these measurements is often 
+ an ill-posed problem due to non-linearity and limited sensitivity of these observed 
+ quantities to the constrained parameters. We need to combine additional constraints 
+ to make the problem amenable to inversion. 
 
-\section{GEOS-Chem Adjoint}
+ \textit{A propri} information describes our knowledge of the state vector before measurements
+ are applied. \textit{A propri} constraint is commonly used to achieve a well-defined stable
+ and physically reasonable solution to an ill-posed problem. Usually, \textit{a propri} 
+ knowledge comprises both a mean state $\bdxa$ and its error
+ $\bdeps_\text{a}$:
+ \begin{equation} \label{eq:xa}
+  \mathbf{x} = \bdxa + \bdeps_\text{a}
+ \end{equation} 
+
+ Under assumption of Gaussian-distributed errors, the Maximum A Posteriori solution of
+  equations \eqref{eq:fx} and \eqref{eq:xa} according to the Bayesian approach
+ corresponds to the state vector that minimizes the quadratic cost function 
+ \citep{rodgers00}: 
+ \begin{equation} \label{eq:cost}
+ J(\mathbf{x}) = \frac{1}{2} \left[ \mathbf{F(x)-y}\right]^T
+                 \bdsy^{-1} \left[ \mathbf{F(x)-y}\right]
+               + \frac{1}{2} \gamma \left( \mathbf{x}-\bdxa \right)
+                 \bdsa^{-1} \left( \mathbf{x}-\bdxa \right) \mbox{,}
+ \end{equation}
+ where $T$ indicates the transpose operation, $\bdsy$ is the error covariance matrix 
+ of measurements, $\bdsa$ is the error covariance matrix of the \textit{a priori}, 
+ and $\gamma$ is the regularization paramter. These two terms on the right side of 
+ equation \eqref{eq:cost} respresent the total sqaured fitting error incurred owing 
+ to departures of model predictions from the observations and the penalty error
+ incurred owing to depatures of the estimates from the \textit{a priori}, respectively.
+ Thus, the minimization of $J(\mathbf{x})$ achieves the objectives of improving the 
+ agreement between the model and the measurements while ensuring that the solution 
+ remains within a reasonable range and degree of smoothness. 
+
+ The regularization parameter $\gamma$ in the calculation of $J(\mathbf{x})$ acts weights
+ to balance the fitting error and the penalty error. Clearly, a good assignment of 
+ $\gamma$ is of crucial importance for the statistically optimal solution. High values 
+ of $\gamma$ can lead to over-smoothing of the solution with little improvement to the
+ fitting residuals, while low values minimize the error term at the cost of greatly 
+ increasing the penalty term. Optimal values of $\gamma$ can be identified at the 
+ corner of the so-called L-curve \citep{hansen98}.
+
+ In principle, solving this inverse problem is tantamount to a pure 
+ mathematical minimization procedure. The minimization of $J(\mathbf{x})$ 
+ is performed with an iterative quasi-Newton optimization approach 
+ using the L-BFGS-B algorithm [Byrd et al., 1995; Zhu et al., 1994], 
+ which offers bounded minimization to ensure the solution stays 
+ within a physically reasonable range. The L-BFGS-B algorithm 
+ requires knowledge of $\mathbf{x}$ and $J(\mathbf{x})$, 
+ as well as the gradient of $J(\mathbf{x})$ with respect to 
+ $\mathbf{x}$, $\Delta_\mathbf{x}J$. By linearizing the forward model F(x), 
+ we can determine $\Delta_\mathbf{x}J$ by
+ \begin{equation} \label{eq:dcost}
+  \Delta_\mathbf{x}J = \mathbf{K}^T \bdsy^{-1} \left[ \mathbf{F(x)-y}\right]
+                     + \gamma \bdsa^{-1} \left( \mathbf{x}-\bdxa \right) \mbox{,} 
+ \end{equation}
+ where $\mathbf{K}$ is the Jacobian matrix of $\mathbf{F(x)}$ 
+ with respect to $\mathbf{x}$, which is computed analytically by adjoint method 
+ in the GEOS-Chem adjoint. At each iteration, improved estimates 
+ of the state vector are implemented and the forward simulation is recalculated. 
+ The convergence criterion to determine the optimal solution is the smallness 
+ of the $J(\mathbf{x})$ reduction and the norm of $\Delta_\mathbf{x}J$. 
+ The iteration stops when the reduction of $J(\mathbf{x})$ is less than 1\% within 
+ five continuous iterations. Then, the optimal solutions are identified 
+ corresponding to the smallest norm of $\Delta_\mathbf{x}J$ among 
+ these five last iterations. 
+
+ \subsection{GEOS-Chem adjoint modeling}
 
  The GES-Chem adjoint model was specifically developed for \ldots \citep{henze07,henze09}.
  It has been widely used to \ldots [references\ldots]. 
