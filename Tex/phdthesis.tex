@@ -160,7 +160,7 @@ pdfpagelabels% This helps to fix the issue with hyperref with page numbering
 %% Uncomment these if need be
 
 %% The ToC is required
-\tableofcontents
+\tableofcontents*
 %% Uncomment these if need be
 \begin{onehalfspacing}
 \listoffigures
@@ -200,6 +200,11 @@ pdfpagelabels% This helps to fix the issue with hyperref with page numbering
 %% Pull in all the entries in the bibtex file. Is is a useful trick to
 %% check all your references.
 %\nocite{*}
+
+\newpage
+\begin{listofpub}
+  List my publication here
+\end{listofpub}
 
 %% Index go here (if you have one)
 

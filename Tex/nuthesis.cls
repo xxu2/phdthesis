@@ -183,6 +183,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
   }{\par\end{doublespacing}\cleardoublepage}
 
 \newenvironment{copyrightpage}[1][Copyright]{%
+  \addcontentsline{toc}{chapter}{#1}
   \begin{center}%
     \normalfont\bfseries \MakeUppercase{#1}\\
     \copyright{} \nu@year, \theauthor%
@@ -193,6 +194,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
   \cleardoublepage}
 
 \newenvironment{dedication}[1][Dedication]{%
+  \addcontentsline{toc}{chapter}{#1}
   \begin{center}%
     \normalfont\bfseries \MakeUppercase{#1}%
   \end{center}%
@@ -202,6 +204,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
   \cleardoublepage}
 
 \newenvironment{acknowledgments}[1][Acknowledgments]{%
+  \addcontentsline{toc}{chapter}{#1}
   \begin{center}
     \normalfont\bfseries \MakeUppercase{#1}
   \end{center}
@@ -211,6 +214,17 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
   \cleardoublepage}
 
 \newenvironment{grantinfo}[1][Grant Information]{%
+  \addcontentsline{toc}{chapter}{#1}
+  \begin{center}
+    \normalfont\bfseries \MakeUppercase{#1}
+  \end{center}
+  \ifthenelse{\boolean{nu@single}}{\begin{singlespacing}}{\begin{doublespacing}}%
+    }{\par%
+      \ifthenelse{\boolean{nu@single}}{\end{singlespacing}}{\end{doublespacing}}%
+  \cleardoublepage}
+
+\newenvironment{listofpub}[1][List of Publications]{%
+  \addcontentsline{toc}{chapter}{#1}
   \begin{center}
     \normalfont\bfseries \MakeUppercase{#1}
   \end{center}
@@ -221,6 +235,7 @@ Under the Supervision of \nu@adviser\\[3\baselineskip]
 
 \let\nu@ToC\tableofcontents
 \renewcommand{\tableofcontents}{\cleardoublepage\nu@ToC}
+\renewcommand{\contentsname}{\huge{Table of Contents}}
 
 \let\nu@LoF\listoffigures
 \renewcommand{\listoffigures}{\cleardoublepage\nu@LoF}

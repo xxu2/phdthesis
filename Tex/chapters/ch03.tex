@@ -97,7 +97,7 @@
  In principle, solving this inverse problem is tantamount to a pure 
  mathematical minimization procedure. The minimization of $J(\mathbf{x})$ 
  is performed with an iterative quasi-Newton optimization approach 
- using the L-BFGS-B algorithm [Byrd et al., 1995; Zhu et al., 1994], 
+ using the L-BFGS-B algorithm \citep{byrd95,zhu94}, 
  which offers bounded minimization to ensure the solution stays 
  within a physically reasonable range. The L-BFGS-B algorithm 
  requires knowledge of $\mathbf{x}$ and $J(\mathbf{x})$, 
@@ -132,12 +132,32 @@
  calculating the adjoint with respect to dust emission flux, and (3) the capacity of 
  calculating the adjoint with respect to parameters in dust emission scheme. 
 
-\section{Implements of AOD observation operator}
+\section{Necessary Implementations}
 
-Two types of observation operator
+ \subsection{AOD observation operator}
 
-\section{Implements of Adjoint for Dust Emissions}
-\section{Implements of Adjoint for Dust Flux Parameterization}
+  Inversion of dust emissions from AOD observations requires 
+  an observation operator that relates AOD to emission. 
+  Such observation operator of this study comprises 
+  a GEOS-Chem forward model that simulates aerosol concentrations 
+  with input of emissions and an AOD operator that computes AOD 
+  from aerosol concentrations. 
+  AOD at any wavelength is calculated from the sum of AODs 
+  of each component assuming external mixing state of aerosol
+  particles:
+  \begin{equation} \label{eq:aod} 
+   \tau_\text{A} = \displaystyle \sum_{i=1}^{n_\text{spec}} 
+                   {\beta_\text{ext}}_i c_i
+                   \frac{3c_i {Q_\text{ext}}_i}{4 \rho_i, {r_\text{eff}}_i}
+  \end{equation}
+  where $n_\text{spec}$ is the number of aerosol components, 
+  $c_i$ is the aerosol mass concentration of the $i$th component, 
+  and ${\beta_\text{ext}}_i$ is the mass extinction efficiency. 
+  ${\beta_\text{ext}}_i$ is related to the 
+
+ 
+ \subsection{Adjoint for Dust Emissions}
+ \subsection{Adjoint for Dust Flux Parameterization}
 
    In simple, The dust emission flux considering subgrid wind speeds in equation 
    (\ref{eq:Edp}) can be writen
