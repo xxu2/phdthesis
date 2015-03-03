@@ -4,48 +4,48 @@
 
 \section{Background and Motivation}
 
- Mineral dust accounts for about 40\% of the global annual emissions of tropospheric aerosols
- \citep{textor06,boucher13}. Naturally, these mineral 
- particles are uplifited mainly by the aerolian wind ersion in arid and semiarid areas.     
- Anthropogenic sources of mineral aerosols include road dust and mineral dust due to land 
- changes by human activities \citep{tegen96,tegen04,ginoux12}. 
- In the atmosphere, mineral dust can be transported thousands of miles away from its ources
- \citep{husar01,toon03} and influences many aspects of the Earth system through 
- its interations with atmospheric chemistry, 
- solar and terrestrial radiaton, clouds, and biosphere \citep{shao11,ravi11,satheesh05,carslaw10}. An accurate representation of dust cycle in the Earth climate model is thus critical 
- to assess these impacts. However, significant uncertainties prevail in quantifying 
- mineral dust sources due to the limited understanding of dust uplifting mechanisms and the 
- lack of in situ measurements over the desert region. 
+Atmospheric aerosols play a crucial role in the global
+climate change. They affect earth energy budget directly
+by scattering and absorbing solar and terrestrial radiation,
+and indirectly through altering the cloud formation,
+lifetime, and radiative properties [Haywood and Boucher,
+2000; Ramanathan et al., 2001]. However, quantification of
+these effects in the current climate models is fraught with
+uncertainties. The global average of aerosol effective
+radiative forcing (ERF) were estimated to range from -0.1
+to -1.9 Wm2 with the best estimate of -0.9 Wm2 [Boucher et
+al., 2013], indicating that the cooling effects of aerosol
+might counteract the warming effects of 1.820.19 Wm2 caused
+by the increase of carbon dioxide since the industrial
+revolution [Myhre et al., 2013]. The climate effects of
+aerosol particles depend on their geographical distribution,
+optical properties, and efficiency as cloud condensation
+nuclei (CCN). Key quantities pertain to the aerosol optical
+and cloud-forming properties include particle size
+distribution (PSD), chemical composition, mixing state, and
+morphology [Boucher et al., 2013]. While the daily aerosol
+optical depth (AOD) can be well measured from current
+satellite and ground-based remote sensing instrumentations
+[e.g., Holben et al., 1998; Kaufman et al., 2002], the
+accurate quantification of aerosol ERF is in no small part
+hindered by our limited knowledge about the aerosol PSD and
+refractive index (describing chemical composition and
+mixing state). To fully understand the role of aerosol
+particles in the global climate change, further development
+in observations along with retrieval algorithms for these
+aerosol microphysical properties from different platforms
+are thus highly needed [Mishchenko et al., 2004], and
+the focus of this two-part series study is the
+characterization of aerosol properties from ground-based
+passive remote sensing \citep{henze07}.
 
- Parameterization of dust entrainments in a 
- chemistry transport model (CTM) requires knowledge of many parameters that are 
- poorly characterized, including surface wind speed, soil moisture, soil texture, 
- and surface state and roughness \citep{tegen94,ginoux01,zender03a}. 
- Not surprisingly, recent estimates of global annual dust emissions in CTMs 
- span from a few hundreds to over 4000 Tg \citep{huneeus11} and can vary by 
- a factor as large as fifteen at regional scales for the same dust event(s) \citep{uno06}. 
- An observation-based approach, therefore, is needed 
- to reduce these large uncertainties in estimate of 
- dust emissions and further improve the global modeling of atmospheric dust distribution 
- and their impacts.
+  Dust acts as medium in iron cycle on the earth \citep{jickells05}.
 
- In the last decade, the \textit{in situ} and satellite remote sensing observations 
- have greatly enhanced our understanding of the spatiotemporal variations and 
- radiative effects of dust aerosol. 
- This is especially true for satellite retrievals that are based on 
- multi-spectral and multi-angle radiance measurements 
- from NASA’s Earth Observing System satellite instruments, such as MODIS and MISR, 
- which provide daily information of aerosol optical depth (AOD) across the globe 
- \citep{king99,kaufman02,martonchik09}. 
- The MODIS “deep blue” (DB) aerosol retrievals \citep{hsu06,hsu13} 
- further made the aerosol information over bright deserts available. 
- On the other hand, in situ observations (e.g. AERONET \citep{holben98}) 
- and experiment campaigns, even though sparse in their temporal and spatial coverage, 
- usually have advantages in their accuracy, 
- and thus are valuable for validating satellite aerosol products and model simulations.
-
- In this dissertation, I thus seek to contribute an improved understanding 
- of the dust emissions through (i) \ldots, (ii) \ldots, and (iii).
+  The long-distance transport of bacteria together with dust
+  has been discussed in several studies as a mechanism for
+  the global dispersion of microbial species,
+  with the potential to impact ecosystems and public health
+  \citep{griffin01,burrows09}
 
  In the fllowing paragraphs of this section, 
  I briefly describe the impacts of dust aerosols on the earth system, 
@@ -54,52 +54,111 @@
  Subsequently, I present the specific scientific objectives and the 
  organization of this thesis.  
 
-\subsection{Impacts of atmospheric aerosols}
-
-Atmospheric aerosols play a crucial role in the global 
-climate change. They affect earth energy budget directly 
-by scattering and absorbing solar and terrestrial radiation, 
-and indirectly through altering the cloud formation, 
-lifetime, and radiative properties [Haywood and Boucher, 
-2000; Ramanathan et al., 2001]. However, quantification of 
-these effects in the current climate models is fraught with 
-uncertainties. The global average of aerosol effective 
-radiative forcing (ERF) were estimated to range from -0.1 
-to -1.9 Wm2 with the best estimate of -0.9 Wm2 [Boucher et 
-al., 2013], indicating that the cooling effects of aerosol 
-might counteract the warming effects of 1.820.19 Wm2 caused
-by the increase of carbon dioxide since the industrial 
-revolution [Myhre et al., 2013]. The climate effects of 
-aerosol particles depend on their geographical distribution, 
-optical properties, and efficiency as cloud condensation 
-nuclei (CCN). Key quantities pertain to the aerosol optical 
-and cloud-forming properties include particle size 
-distribution (PSD), chemical composition, mixing state, and 
-morphology [Boucher et al., 2013]. While the daily aerosol 
-optical depth (AOD) can be well measured from current 
-satellite and ground-based remote sensing instrumentations 
-[e.g., Holben et al., 1998; Kaufman et al., 2002], the 
-accurate quantification of aerosol ERF is in no small part 
-hindered by our limited knowledge about the aerosol PSD and 
-refractive index (describing chemical composition and 
-mixing state). To fully understand the role of aerosol 
-particles in the global climate change, further development 
-in observations along with retrieval algorithms for these 
-aerosol microphysical properties from different platforms 
-are thus highly needed [Mishchenko et al., 2004], and 
-the focus of this two-part series study is the 
-characterization of aerosol properties from ground-based 
-passive remote sensing \citep{henze07}. 
-
-  Dust acts as medium in iron cycle on the earth \citep{jickells05}. 
-
-  The long-distance transport of bacteria together with dust 
-  has been discussed in several studies as a mechanism for 
-  the global dispersion of microbial species, 
-  with the potential to impact ecosystems and public health
-  \citep{griffin01,burrows09}
-
 \subsection{Top-down versus bottom-up}
+
+ Current estimates of aerosol emissions are largely based on the “bottom-up” method 
+ that integrates diverse information such as fuel consumption in various industries 
+ and corresponding measurements of emission rates for different species \citep{streets03},
+ economic growth, and the statistics of land use and fire-burned areas 
+ [van der Werf et al., 2006]. While significant progress has been made [Streets et al., 2006], 
+ the “bottom-up” approach has a number of limitations.  
+ First, the emission inventory usually has a temporal lag of at least 2 to 3 years, 
+ as time is needed to aggregate information from different sources 
+ and format them into the emission inventories that are suitable for use in climate models. 
+ Second, the temporal resolution of the current emission inventory 
+ is usually on monthly to annual scale, which is not sufficient 
+ to characterize the daily or diurnal variation of emissions; 
+ the aerosol impact on radiative transfer and the variation of cloud properties, 
+ however, is often strongly dependent on the time of the day [Wang et al., 2006]. 
+ Third, the spatial resolutions of the bottom-up emission inventories are usually 
+ limited by the availability of the ground-based observations, 
+ which often lack the spatial coverage for estimating emission 
+ in a uniformly fine resolution for regional modeling of aerosol transport. 
+ Finally, bottom-up emission inventories may miss important emission sources 
+ that are not well documented including emissions from wild fires, 
+ volcanic eruptions, and agricultural activities. 
+ All these limitations are amplified over the East Asia region 
+ because the economic growth in China is so rapid that information needed 
+ for bottom-up approach cannot be timely and reliably documented. 
+
+ To complement information from bottom-up emissions, remote sensing is increasingly used 
+ to better quantify aerosol distributions. 
+ The satellite observations and/or products can provide information important 
+ for the bottom-up estimate of emissions. 
+ Examples include the fire products from MODIS, ASTER, and AVHRR sensors 
+ that are widely used for characterizing the biomass burning emissions 
+ [Borrego et al., 2008; van der Werf et al., 2006; 2010; Reid et al., 2009]. 
+ Alternatively, the satellite observed tracer abundance could be used 
+ to constrain bottom-up estimates of aerosol emissions through the inverse modeling; 
+ such method is referred to as a ‘top-down’ constraint. 
+ Although satellite-based aerosol retrievals have less precision than in situ measurements, 
+ studies have shown that they are able to quantify the atmospheric aerosol loading 
+ and temporal variations with good agreement and expected accuracy 
+ to the ground-based observations [Levy et al., 2010; Remer et al., 2005]. 
+ Furthermore, the satellite-based aerosol data, in contrast to the ground-based ones, 
+ have much higher temporal resolution across the globe. For instance, the MODIS sensor, 
+ aboard on NASA’s both Terra and Aqua satellites, has a surface footprint size of 
+ about 1 km at nadir and needs only 1 to 2 days to achieve global coverage. 
+ In addition, the joint retrieval of aerosols from diverse satellite sensors 
+ enhances the accuracy of satellite aerosol products [Sinyuk et al., 2008], 
+ the potential of which have also been shown in the air quality monitoring 
+ [Liu et al., 2005; Wang et al., 2010]. 
+
+ Different top-down techniques have been developed to optimally estimates 
+ the emissions from satellite observations, which include but are not 
+ limited to the following: 
+ \begin{itemize}
+ \item (a) the use of a scaling factor that is the ratio of observed tracer abundances to 
+ the CTM simulated counterparts [e.g. Lee et al., 2011; Martin et al., 2003; Wang et al., 2006];
+ \item (b) the use of the local sensitivity of change of tracer concentration 
+            to the change of emission [e.g. Lamsal et al., 2011; Walker et al., 2010]; 
+ \item (c) the analytical Bayesian inversion method [e.g. Heald et al., 2004]; 
+ \item (d) the adjoint of CTM [e.g. Müller and Stavrakou, 2005; 
+           Henze et al., 2007; 2009; Dubovik et al., 2008; Kopacz et al., 2009; 2010; 
+           Wang et al., 2012].  
+ \end{itemize} 
+ The first two methods are similar; 
+ both assume a linear relationship between model simulated aerosol abundances and emissions. 
+ The analytical method is exact but computationally expensive 
+ and thus can only constrain emission in the domain-wise 
+ or over coarse spatial resolution [Kopacz et al., 2009]. 
+ In contrast to the first three approaches, the adjoint approach is designed 
+ for exploiting the high-density of observations to constrain emission 
+ with high resolution [Kopacz et al., 2009], as it is able to efficiently 
+ calculate gradients of the overall mismatch between observations 
+ and model estimates with respect to large sets of parameters 
+ (i.e., emissions resolved at each grid box) [Henze et al., 2007].
+
+ Several studies have successfully analyzed sources of 
+ traces gases using the top-down methods, including \ce{CO} sources 
+ from MOPITT sensor over the Asia [Heald et al., 2004; Kopacz et al., 2009;] 
+ and over the globe [e.g. Stavrakou and Müller, 2006; Kopacz et al. 2010], 
+ \ce{CO2} surface flux from the TES sensor [Nassar et al., 2011], 
+ \ce{NOx} emissions from space-based column \ce{NO2} by several satellite sensors 
+ [Lamsal et al., 2011; Lin et al., 2010; Martin et al., 2003; Müller and Stavrakou, 2005], 
+ and \ce{SO2} from SCIAMACHY and OMI sensors [Lee et al., 2011], etc. 
+ However, not all emissions of trace gases can be fully constrained with their 
+ satellite-based counterpart products, because some trace gases (e.g. \ce{SO2}) 
+ can react with other gases (e.g. \ce{NH3}), to form either liquid or solid aerosols 
+ (e.g. \ce{(NH4)2SO4}). As a result, using measurements of trace gases alone 
+ can only provide partial constraints on the emission of the corresponding trace gases. 
+
+\subsection{Satellite Observations of Aerosol}
+
+\begin{table}[h]
+  %\centering
+  \small
+  \caption{List of satellite sensors with measurement specifications 
+  relevant for operation retrieval of aerosol properties.}
+  \label{tab:satellites}
+  \begin{tabular}{p{0.09\textwidth}p{0.3\textwidth}p{0.3\textwidth}p{0.2\textwidth}}\toprule
+    Sensor & Measurement Specification  & Retrieved Aerosol Property & References \\ \midrule
+    AVHRR\textsuperscript{a}  & 15 bands at single view angle & AOD & Dubuisson et al [2009] \\
+    CALIOP & Layer backscattering and depolarization ratio & AOD profile & Winker et al [2010] \\
+    MERIS  & 15 bands at single view angle & AOD & Dubuisson et al [2009] \\ \bottomrule
+  \end{tabular}
+   \textsuperscript{a}Footnotes starts here
+\end{table}
 
 \section{Main Goals of This Work}
 

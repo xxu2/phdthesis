@@ -1,200 +1,190 @@
-% Chapter 3
-\chapter{Adjoint Inversion of Dust Emissions}
+%% 
+\chapter{Optimizing Species-Specified Aerosol Emissions} \label{chap:}
 
- \textit{Overview} \hspace{0.2cm}
+\section{Introduction}
 
-\section{The Adjoint Inversion Framework}
+ In this chapter, we present a new attempt for the top-down estimate 
+ of aerosol emissions through integration of the satellite observation 
+ of reflectance and GEOS-Chem Adjoint model. 
+ The technique is applied to improve estimates of mineral dust 
+ and anthropogenic \ce{SO2}, \ce{NH3}, \ce{NOx}, \ce{BC} and \ce{OC} 
+ emissions over China for April 2008, during which ground-based 
+ PM\textsubscript{10} (particulate matter with aerodynamic diameter of 
+ 10 $\mu$m or less) data is available from a joint China-U.S. 
+ dust field experiment [Huang et al., 2010]. 
+ This paper differs from the past work in that: 
+ (i) satellite reflectance (in essence radiance) is used 
+ to constrain the emission estimates of aerosol particle and precursors, 
+ which eliminates the discrepancy of aerosol optical properties 
+ between model simulated and satellite retrieved AOD; 
+ (ii) we use a suite of aerosol and gas measurements 
+ from satellite sensors and ground-based instruments 
+ to independently evaluate our results, and test our hypothesis 
+ that temporal variation of AOD at different locations, 
+ as characterized by satellite observations, can be a strong constraint 
+ for species-specific source estimates if they are combined with 
+ the model-based knowledge of the dominant aerosol sources 
+ and the source-receptor relationship at corresponding locations; 
+ and (iii) combination of (i) and (ii) will provide the basis and 
+ a necessary step forward for future research to simultaneously 
+ use both gas and AOD measurements to constrain speciated aerosol emissions. 
 
- The adjoint of the GEOS-Chem model was developed specifically 
- for inverse modeling of aerosol (or their precursors) 
- and gas emissions \citep{henze07,henze09}, 
- and it is continuously improved and maintained 
- by the GEOS-Chem Adjoint and Data Assimilation 
- Working Group and its users 
- (\url{http://wiki.seas.harvard.edu/geos-chem/index.php/GEOS-Chem_Adjoint}). 
- The strength of the adjoint model is 
- its ability to efficiently calculate model sensitivities 
- with respect to large sets of model parameters, 
- such as aerosol emissions at each grid box. 
- These sensitivities can serve as the gradients needed for 
- inverse modeling of aerosol emissions. 
- Recent studies have used the GEOS-Chem adjoint with 
- satellite observations to constrain sources of species 
- such as \ce{CO} \citep{kopacz09,kopacz10,jiang11}, 
- \ce{CH4} \citep{,wecht12}, and \ce{O3} \citep{parrington12}
- to diagnose source regions for long-range transport \citep{henze09,kopacz11}, 
- and to provide guidance on future geostationary observations 
- of surface air quality \citep{zoogman11}.
+ We describe the top-down inversion scheme and its key components 
+ (i.e., GEOS-Chem forward model and its adjoint, and observational constraints) 
+ in Section 2. The top-down constraints on aerosol emissions over China 
+ for the period of April 2008 are presented in Section 3, 
+ and evaluated in Section 4. Interpretation and 
+ implications of the results are discussed in Section 5, 
+ and Section 6 summaries this study. [needs updates!!!!]
 
- \subsection{Inversion strategy}
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.7\textwidth}]{figures/a1.pdf}
+  \caption{Flowchart of the proposed top-down inversion framework.}
+  \label{fig:flowchat}
+ \end{figure}
 
- Let $\mathbf{x}$ denote a state vector of $n$ parameters to be constrained 
- and $\mathbf{y}$ an observation vector assembled by $m$ measurements, 
- and let $\mathbf{F}$ indicate a forward model that describes the physics of
- the measurement process. Then, we can express the relationship between
- the observation vector and the state vector as
- \begin{equation} \label{eq:fx}
- \mathbf{y} = \mathbf{F}(\mathbf{x}) + \bdeps \mbox{,}
- \end{equation}
- where $\bdeps$ is an experimental error term that includes
- observation noise and forward modeling uncertainty. 
+ As shown in Figure \ref{fig:flowchat}, the top-down inversion approach in this study 
+ integrates the MODIS radiance/reflectance with the GEOS-Chem (section 2.1) 
+ and its adjoint model (section 2.2) to optimize aerosol emissions. 
+ First, similar to Wang et al. [2010], we retrieve the atmospheric 
+ aerosol mass and AOD through fitting the calculated radiance based on 
+ GEOS-Chem aerosol composition and single optical properties to the MODIS 
+ cloud-free radiances (section 2.3). Second, the retrieved AOD 
+ (hereafter retrieved MODIS AOD) from the first step is used as 
+ an observational constraint to optimize the aerosol emissions 
+ by inverting the GEOS-Chem chemical transport model (section 2.4). 
+ The approach aims to improve aerosol emission estimates that ultimately 
+ will yield better agreement between model simulated and satellite-observed 
+ reflectances.  Since the aerosol single scattering properties are 
+ exactly the same between the retrieval algorithm and GEOS-Chem 
+ (as done in the first step), the top-down inversion scheme essentially 
+ uses the MODIS radiances (in the form of retrieved AOD) to scale the 
+ GEOS-Chem aerosol mass, which in turn are used to optimally adjust 
+ the aerosol emissions. The approach here is first demonstrated through 
+ a pseudo-observation experiment (Section 2.5) before it is applied 
+ to real observations (Section 3).
 
- For this work, the observation 
- vector $\mathbf{y}$ comprises measurements of 
- aerosol loading, such as mass concentrations or optical depth, at any temporal 
- and spatial scale. The components of the sate vector $\mathbf{x}$ could vary 
- according to our inversion focus. For the inversion of aerosol emission estimats 
- (as in the Chapter \ref{chap:optems}), 
- $\mathbf{x}$ comprises the emission fluxes (or their scaling factors) of defined 
- aerosol species within each grid cell of specified temporal resolution. 
- In constrast, $\mathbf{x}$ consists of 
- dust emitting parameters (or their scaling factors) when we tend to constrain 
- the dust emission parameterization (as in the Chapter \ref{chap:optdead}). 
- The forward model $\mathbf{F}$ 
- represents the GEOS-Chem that maps parameters from the state space to the 
- observation space. The inversion of the state vector from these measurements is often 
- an ill-posed problem due to non-linearity and limited sensitivity of these observed 
- quantities to the constrained parameters. We need to combine additional constraints 
- to make the problem amenable to inversion. 
+\section{Constraints from Satellite Radiances}
 
- \textit{A propri} information describes our knowledge of the state vector before measurements
- are applied. \textit{A propri} constraint is commonly used to achieve a well-defined stable
- and physically reasonable solution to an ill-posed problem. Usually, \textit{a propri} 
- knowledge comprises both a mean state $\bdxa$ and its error
- $\bdeps_\text{a}$:
- \begin{equation} \label{eq:xa}
-  \mathbf{x} = \bdxa + \bdeps_\text{a}
- \end{equation} 
+\section{Selection of Emissions for Optimization and Sensitivity Tests}
 
- Under assumption of Gaussian-distributed errors, the Maximum A Posteriori solution of
-  equations \eqref{eq:fx} and \eqref{eq:xa} according to the Bayesian approach
- corresponds to the state vector that minimizes the quadratic cost function 
- \citep{rodgers00}: 
- \begin{equation} \label{eq:cost}
- J(\mathbf{x}) = \frac{1}{2} \left[ \mathbf{F(x)-y}\right]^T
-                 \bdsy^{-1} \left[ \mathbf{F(x)-y}\right]
-               + \frac{1}{2} \gamma \left( \mathbf{x}-\bdxa \right)
-                 \bdsa^{-1} \left( \mathbf{x}-\bdxa \right) \mbox{,}
- \end{equation}
- where $T$ indicates the transpose operation, $\bdsy$ is the error covariance matrix 
- of measurements, $\bdsa$ is the error covariance matrix of the \textit{a priori}, 
- and $\gamma$ is the regularization paramter. These two terms on the right side of 
- equation \eqref{eq:cost} respresent the total sqaured fitting error incurred owing 
- to departures of model predictions from the observations and the penalty error
- incurred owing to depatures of the estimates from the \textit{a priori}, respectively.
- Thus, the minimization of $J(\mathbf{x})$ achieves the objectives of improving the 
- agreement between the model and the measurements while ensuring that the solution 
- remains within a reasonable range and degree of smoothness. 
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.9\textwidth}]{figures/a2.pdf}
+  \caption{Relative changes in posterior aerosol emissions from \textit{a priori} 
+   in the pseudo-observation experiment. 
+   Six panels are respectively for anthropogenic emissions of \ce{SO2}, \ce{NH3}, 
+   \ce{NOx}, BC, and OC, and mineral dust from both natural and anthropogenic sources. 
+   The red box in panel (a) indicates the region where AOD observations are selected. }
+  \label{fig:pseudo1}
+ \end{figure}
 
- The regularization parameter $\gamma$ in the calculation of $J(\mathbf{x})$ acts weights
- to balance the fitting error and the penalty error. Clearly, a good assignment of 
- $\gamma$ is of crucial importance for the statistically optimal solution. High values 
- of $\gamma$ can lead to over-smoothing of the solution with little improvement to the
- fitting residuals, while low values minimize the error term at the cost of greatly 
- increasing the penalty term. Optimal values of $\gamma$ can be identified at the 
- corner of the so-called L-curve \citep{hansen98}.
+\section{Inversion Results}
 
- In principle, solving this inverse problem is tantamount to a pure 
- mathematical minimization procedure. The minimization of $J(\mathbf{x})$ 
- is performed with an iterative quasi-Newton optimization approach 
- using the L-BFGS-B algorithm \citep{byrd95,zhu94}, 
- which offers bounded minimization to ensure the solution stays 
- within a physically reasonable range. The L-BFGS-B algorithm 
- requires knowledge of $\mathbf{x}$ and $J(\mathbf{x})$, 
- as well as the gradient of $J(\mathbf{x})$ with respect to 
- $\mathbf{x}$, $\Delta_\mathbf{x}J$. By linearizing the forward model F(x), 
- we can determine $\Delta_\mathbf{x}J$ by
- \begin{equation} \label{eq:dcost}
-  \Delta_\mathbf{x}J = \mathbf{K}^T \bdsy^{-1} \left[ \mathbf{F(x)-y}\right]
-                     + \gamma \bdsa^{-1} \left( \mathbf{x}-\bdxa \right) \mbox{,} 
- \end{equation}
- where $\mathbf{K}$ is the Jacobian matrix of $\mathbf{F(x)}$ 
- with respect to $\mathbf{x}$, which is computed analytically by adjoint method 
- in the GEOS-Chem adjoint. At each iteration, improved estimates 
- of the state vector are implemented and the forward simulation is recalculated. 
- The convergence criterion to determine the optimal solution is the smallness 
- of the $J(\mathbf{x})$ reduction and the norm of $\Delta_\mathbf{x}J$. 
- The iteration stops when the reduction of $J(\mathbf{x})$ is less than 1\% within 
- five continuous iterations. Then, the optimal solutions are identified 
- corresponding to the smallest norm of $\Delta_\mathbf{x}J$ among 
- these five last iterations. 
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.9\textwidth}]{figures/a3.pdf}
+  \caption{Comparison of the prior (a) and posterior (b) GEOS-Chem (GC) simulation 
+ of 0.65 $\mu$m AOD with the AOD at the same wavelength retrieved from 
+ MODIS reflectance using GEOS-Chem aerosol optical properties (c) averaged 
+ for the period of April 2008. Satellite retrievals with 10 km by 10 km at nadir 
+ are aggregated to GEOS-Chem grid cells; and the model AOD are sampled coincidentally 
+ with those retrievals. Panel (d) and (e) respectively show the difference of 
+ prior and posterior simulated from the satellite retrieved AODs. 
+ The red box in panel (c) indicates the region where AOD observations are selected.}
+  \label{fig:aods1}
+ \end{figure}
 
- \subsection{GEOS-Chem adjoint modeling}
 
- The GES-Chem adjoint model was specifically developed for \ldots \citep{henze07,henze09}.
- It has been widely used to \ldots [references\ldots]. 
+ %% Figures of the daily variations in the AOD and dust emission
+ \begin{figure}[t]
+  \centering
+  \includegraphics[width={0.75\textwidth}]{figures/a4.pdf}
+  \caption{(a) Time series of the spatially averaged daily MODIS AOD retrievals (purple) for April 2008 over the Eastern China, compared by the prior (orange) and posterior (green) spatial averaged daily GEOS-Chem AOD that are sampled in the MODIS AOD tempo-spatial space. (b) Time series of the expected daily AOD adjustments (orange) that are the differences between MODIS AOD and the prior GEOS-Chem AOD and their real adjustments (green) that are the differences of posterior from prior GEOS-Chem AOD. (c) Time series of the prior (orange) and posterior (green) daily dust emissions over China for April 2008.}
+  \label{fig:dailyaod}
+ \end{figure}
 
- It caluclates the adjoint, or the transpose of Jacobian matrix of receptor with respect 
- to the state vector, following the \ldots
 
- Based on the infrastructure of GEOS-Chem, we need to develope (1) an observation operator 
- that maps the aerosol concentration into the observation space, (2) the capacity of 
- calculating the adjoint with respect to dust emission flux, and (3) the capacity of 
- calculating the adjoint with respect to parameters in dust emission scheme. 
 
-\section{Necessary Implementations}
+ %% Figures of the optimized ems
+ \begin{figure}[t]
+  \centering
+  \includegraphics[width={0.90\textwidth}]{figures/a5.pdf}
+  \caption{The prior (or bottom-up based, left column), optimized (or top-down constrained, middle column) aerosol emissions over China for the period of April 2008, and their relative differences (right column). Six rows from top to bottom are respectively for anthropogenic emissions of \ce{SO2}, \ce{NH3}, ce{NOx}, BC, and OC, and mineral dust from both natural and anthropogenic sources. }
+  \label{fig:ems1}
+ \end{figure}
 
- \subsection{AOD observation operator}
 
-  Inversion of dust emissions from AOD observations requires 
-  an observation operator that relates AOD to emission. 
-  Such observation operator of this study comprises 
-  a GEOS-Chem forward model that simulates aerosol concentrations 
-  with input of emissions and an AOD operator that computes AOD 
-  from aerosol concentrations. 
-  AOD at any wavelength is calculated from the sum of AODs 
-  of each component assuming external mixing state of aerosol
-  particles:
-  \begin{equation} \label{eq:aod} 
-   \tau_\text{A} = \displaystyle \sum_{i=1}^{n_\text{spec}} 
-                   {\beta_\text{ext}}_i c_i
-                   \frac{3c_i {Q_\text{ext}}_i}{4 \rho_i, {r_\text{eff}}_i}
-  \end{equation}
-  where $n_\text{spec}$ is the number of aerosol components, 
-  $c_i$ is the aerosol mass concentration of the $i$th component, 
-  and ${\beta_\text{ext}}_i$ is the mass extinction efficiency. 
-  ${\beta_\text{ext}}_i$ is related to the 
 
- 
- \subsection{Adjoint for Dust Emissions}
- \subsection{Adjoint for Dust Flux Parameterization}
+\section{Results Evaluations} 
 
-   In simple, The dust emission flux considering subgrid wind speeds in equation 
-   (\ref{eq:Edp}) can be writen
-   \begin{equation}
-   E_{d,j} = C_j S^\prime \int^{u_{*u}}_{u_{*t}} Q_s(u_*,u_{*t},b) p(u_*) d u_* \mbox{,}
-   \end{equation}
-   where $S^\prime = S \alpha$, and $C_j=A_m \displaystyle \sum_{i=1}^3 M_{i,j}$. We combine
-   the erodibility $S$ and sandblasting factor $\alpha$, because both of them not only are 
-   related to the soil texture but also describe the strength efficiency of dust emission. 
-   Given the the state of land surface and the properties of surface soil, the dust emission
-   is a function of $S^\prime$, $b$, and $u_{*t}$. 
+ %% Validation vs AEORNET
+ \begin{figure}[b]
+  \centering
+  \includegraphics[width={0.99\textwidth}]{figures/a6.pdf}  
+  \caption{(a – i) Scatterplots of GEOS-Chem AOD versus AERONET AOD at 0.55 $\mu$m prior (red scatters) and posterior (green scatters) to the aerosol emission optimization over nine stations. AERONET AODs are 3-hour averages following the GEOS-Chem output frequency. (j) The overall comparison for eight AERONET sites excluding Beijing. Also shown are the number of valid sampled pairs (n), correlation coefficients (R), bias, and root-mean-square-error (rmse).}
+  \label{fig:aeronet1}
+ \end{figure}
 
-   Here we implement the adjoint calculation for three parameters, i.e., 
-   $S^\prime$, $b$, and $u_{*t}$. This implementation reqiures the partial
-   derivatives of $E_{d,j}$ with respect to these parameters (when 
-   $u_* \geq u_{*t}$): 
-   \begingroup
-   \allowdisplaybreaks
-   \begin{align}
-     \frac{\partial E_{d,j}}{\partial S^\prime} 
-       &= \frac{E_{d,j}}{S^\prime}\mbox{,} \\
-     \frac{\partial E_{d,j}}{\partial b} 
-       &= C_j S^\prime \int^{u_{*u}}_{u_{*t}} 
-          \frac{\partial Q_s}{\partial b} p(u_*) d u_* \mbox{,} \label{eq:dEdb}\\
-     \frac{\partial E_{d,j}}{\partial u_{*t}}
-       & = C_j S^\prime \int^{u_{*u}}_{u_{*t}} 
-          \frac{\partial Q_s}{\partial u_{*t}} p(u_*) d u_* \mbox{.} \label{eq:dEdut}
-   \end{align}
-   \endgroup
-   These gradients of $Q_s$ in equations (\ref{eq:dEdb} and \ref{eq:dEdut}) can be 
-   calculated by
-   \begingroup
-   \allowdisplaybreaks
-   \begin{align}
-   \frac{\partial Q_s}{\partial b} &= Q_s(u_*,u_{*t},b) \ln{u_*} \\
-   \frac{\partial Q_s}{\partial u_{*t}} &=\frac{c_s \rho}{g} u_*^b
-         \left[\frac{1}{u_*} - \frac{2u_{*t}}{u_*^2} 
-         - \frac{3u_{*t}^2}{u_*^3}\right] 
-   \end{align}
-   \endgroup
+
+ %% Validation against MISR
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.9\textwidth}]{figures/a7.pdf}  
+  \caption{Comparison of the prior and posterior GEOS-Chem simulation of 0.55 $\mu$m AOD with the level 3 MISR 0.55 $\mu$m AOD for the period April 2008. (a) The prior GEOS-Chem 0.55 $\mu$ AOD that are sampled coincidentally with MISR AODs for the period of April 2008. Also overlaid circles are the monthly AOD averages at 0.55 $\mu$m observed from the nine AEORNET sites shown in Figure \ref{fig:aeronet1}. (b) Same as (a) but for the monthly average of posterior GEOS-Chem AOD. (c) Monthly average of the Level 3 daily MISR 0.55 $\mu$m AOD.  (d) Scatter plot the GEOS-Chem AOD versus the MISR AOD before (red scatters) and after optimization (green scatters), in which each point indicates an AOD pair over a model grid cell with value over 0.2. Also shown are the statistics including number of sampled pairs (n), correlation coefficient (R), bias and root-mean-square-error (rmse). Comparisons of the monthly GEOS-Chem AOD versus AERONET AOD are also included as the black circles; each circle indicates an AOD pair over an individual site.}
+  \label{fig:misr1}
+ \end{figure}
+
+ %% Validation against OMI SO2
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.9\textwidth}]{figures/a8.pdf}    
+  \caption{Same as figure \ref{fig:misr1} but for comparison of the GEOS-Chem \ce{SO2} simulation with OMI column \ce{SO2} retrievals for the period of April 2008. The OMI planetary boundary layer (PBL) column \ce{SO2} from the Level 3 daily products with 0.25$^{\circ}$ by 0.25$^{\circ}$ resolutions are aggregated into GEOS-Chem grid cells.}
+  \label{fig:omso2}
+ \end{figure}
+
+ %% Validation against OMI NO2
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.9\textwidth}]{figures/a9.pdf}
+  \caption{Same figure \ref{fig:misr1} but for comparison of the GEOS-Chem \ce{NO2} simulation with OMI column \ce{NO2} retrievals for the period of April 2008.  The OMI tropospheric column \ce{NO2} from Level 2 daily products with 0.25$^{\circ}$ by 0.25$^{\circ}$ resolutions are aggregated into GEOS-Chem grid cells.}
+  \label{fig:omno2}
+ \end{figure}
+
+ %% Validation against surface SNA
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.8\textwidth}]{figures/a10.pdf}
+  \caption{Comparison of the GEOS-Chem surface mass concentration of sulfate-nitrate-ammonium (SNA) aerosols with ground-based observations over Qingdao (120.34$^{\circ}$ E, 36.06$^{\circ}$ N), China. Discontinuity in time series is due to missing or quality filtered observations.}
+  \label{fig:sna}
+ \end{figure}
+
+ %% Validation against surface PM10
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.95\textwidth}]{figures/a11.pdf}
+  \caption{Time serial plot of the GEOS-Chem simulated surface PM\textsubscript{10} concentrations by prior (red) and posterior (red) aerosol emissions compared with the \textit{in situ} measured PM\textsubscript{10} (black) over Zhangye (a) and SACOL (b) stations for 15 – 30 April 2008; also shown are the average values over same the period. Discontinuity in time series is due to missing or quality filtered observations.}
+  \label{fig:pm10}
+ \end{figure}
+
+ %% Validation Taylor diagram
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.66\textwidth}]{figures/a12.pdf} 
+  \caption{Taylor diagram for the model evaluations before (squares) and after (circles) optimization when comparing against (1) AERONET AOD at 0.55 $\mu$m, (2) MISR 0.55 $\mu$m AOD, (3) OMI column \ce{SO2}, (4) OMI column \ce{NO2}, (5) surface SNA concentrations at Qingdao site, and (6) surface PM\textsubscript{10} concentrations measured at Zhangye and SACOL sites. The color coded on each point indicates the relative bias. It should be noted that the ratio of standard deviations and correlation coefficient between prior GEOS-Chem simulated and measured surface PM\textsubscript{10} over Zhangye and SACOL are 6.5 and 0.45, which makes the point number 6 for the prior simulation far beyond the range of this Taylor diagram. }
+  \label{fig:taylor}
+ \end{figure}
+
+
+ %% Satellite AOD changes
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width={0.85\textwidth}]{figures/a13.pdf}
+  \caption{Change of April monthly 0.55 $\mu$m AOD from 2006 to 2008 from MODIS (a) and MISR (b) Level 3 daily products.}
+  \label{fig:aodchange}
+ \end{figure}
+
+\section{Implications of Results}
+
+\section{Summary}

@@ -1,59 +1,149 @@
 % Chapter 2
 \chapter{Top-Down Inversion Framework}
 
-\section{Inversion Theory}
+ \textit{Overview} \hspace{0.2cm}
+ Mathematically, solving an inverse problem involves two types of development, 
+ i.e., the forward modeling and inverse modeling. This chapter presents 
+ how the physical process that mineral dust
+ involved are quantitatively respresented in a chemistry transport model, i.e.,
+ the GEOS-Chem model. These processes include the uplifting of dust from soil surface,
+ the transport within the atmosphere, and despoistion of dust to the surface.
+
+\section{Inversion Theory and Infrastructure}
+
+Let $\mathbf{x}$ denote a state vector of $n$ parameters to be constrained
+ and $\mathbf{y}$ an observation vector assembled by $m$ measurements,
+ and let $\mathbf{F}$ indicate a forward model that describes the physics of
+ the measurement process. Then, we can express the relationship between
+ the observation vector and the state vector as
+ \begin{equation} \label{eq:fx}
+ \mathbf{y} = \mathbf{F}(\mathbf{x}) + \bdeps \mbox{,}
+ \end{equation}
+ where $\bdeps$ is an experimental error term that includes
+ observation noise and forward modeling uncertainty.
+
+ For this work, the observation
+ vector $\mathbf{y}$ comprises measurements of
+ aerosol loading, such as mass concentrations or optical depth, at any temporal
+ and spatial scale. The components of the sate vector $\mathbf{x}$ could vary
+ according to our inversion focus. For the inversion of aerosol emission estimats
+ (as in the Chapter \ref{chap:optems}),
+ $\mathbf{x}$ comprises the emission fluxes (or their scaling factors) of defined
+ aerosol species within each grid cell of specified temporal resolution.
+ In constrast, $\mathbf{x}$ consists of
+ dust emitting parameters (or their scaling factors) when we tend to constrain
+ the dust emission parameterization (as in the Chapter \ref{chap:optdead}).
+ The forward model $\mathbf{F}$
+ represents the GEOS-Chem that maps parameters from the state space to the
+ observation space. The inversion of the state vector from these measurements is often
+ an ill-posed problem due to non-linearity and limited sensitivity of these observed
+ quantities to the constrained parameters. We need to combine additional constraints
+ to make the problem amenable to inversion.
+
+ \textit{A propri} information describes our knowledge of the state vector before measurements
+ are applied. \textit{A propri} constraint is commonly used to achieve a well-defined stable
+ and physically reasonable solution to an ill-posed problem. Usually, \textit{a propri}
+ knowledge comprises both a mean state $\bdxa$ and its error
+ $\bdeps_\text{a}$:
+ \begin{equation} \label{eq:xa}
+  \mathbf{x} = \bdxa + \bdeps_\text{a}
+ \end{equation}
+
+ Under assumption of Gaussian-distributed errors, the Maximum A Posteriori solution of
+  equations \eqref{eq:fx} and \eqref{eq:xa} according to the Bayesian approach
+ corresponds to the state vector that minimizes the quadratic cost function
+ \citep{rodgers00}:
+ \begin{equation} \label{eq:cost}
+ J(\mathbf{x}) = \frac{1}{2} \left[ \mathbf{F(x)-y}\right]^T
+                 \bdsy^{-1} \left[ \mathbf{F(x)-y}\right]
+               + \frac{1}{2} \gamma \left( \mathbf{x}-\bdxa \right)
+                 \bdsa^{-1} \left( \mathbf{x}-\bdxa \right) \mbox{,}
+ \end{equation}
+ where $T$ indicates the transpose operation, $\bdsy$ is the error covariance matrix
+ of measurements, $\bdsa$ is the error covariance matrix of the \textit{a priori},
+ and $\gamma$ is the regularization paramter. These two terms on the right side of
+ equation \eqref{eq:cost} respresent the total sqaured fitting error incurred owing
+ to departures of model predictions from the observations and the penalty error
+ incurred owing to depatures of the estimates from the \textit{a priori}, respectively.
+ Thus, the minimization of $J(\mathbf{x})$ achieves the objectives of improving the
+ agreement between the model and the measurements while ensuring that the solution
+ remains within a reasonable range and degree of smoothness.
+
+ The regularization parameter $\gamma$ in the calculation of $J(\mathbf{x})$ acts weights
+ to balance the fitting error and the penalty error. Clearly, a good assignment of
+ $\gamma$ is of crucial importance for the statistically optimal solution. High values
+ of $\gamma$ can lead to over-smoothing of the solution with little improvement to the
+ fitting residuals, while low values minimize the error term at the cost of greatly
+ increasing the penalty term. Optimal values of $\gamma$ can be identified at the
+ corner of the so-called L-curve \citep{hansen98}.
+
+ In principle, solving this inverse problem is tantamount to a pure
+ mathematical minimization procedure. The minimization of $J(\mathbf{x})$
+ is performed with an iterative quasi-Newton optimization approach
+ using the L-BFGS-B algorithm \citep{byrd95,zhu94},
+ which offers bounded minimization to ensure the solution stays
+ within a physically reasonable range. The L-BFGS-B algorithm
+ requires knowledge of $\mathbf{x}$ and $J(\mathbf{x})$,
+ as well as the gradient of $J(\mathbf{x})$ with respect to
+ $\mathbf{x}$, $\Delta_\mathbf{x}J$. By linearizing the forward model F(x),
+ we can determine $\Delta_\mathbf{x}J$ by
+ \begin{equation} \label{eq:dcost}
+  \Delta_\mathbf{x}J = \mathbf{K}^T \bdsy^{-1} \left[ \mathbf{F(x)-y}\right]
+                     + \gamma \bdsa^{-1} \left( \mathbf{x}-\bdxa \right) \mbox{,} 
+ \end{equation}
+ where $\mathbf{K}$ is the Jacobian matrix of $\mathbf{F(x)}$
+ with respect to $\mathbf{x}$, which is computed analytically by adjoint method
+ in the GEOS-Chem adjoint. At each iteration, improved estimates
+ of the state vector are implemented and the forward simulation is recalculated.
+ The convergence criterion to determine the optimal solution is the smallness
+ of the $J(\mathbf{x})$ reduction and the norm of $\Delta_\mathbf{x}J$.
+ The iteration stops when the reduction of $J(\mathbf{x})$ is less than 1\% within
+ five continuous iterations. Then, the optimal solutions are identified
+ corresponding to the smallest norm of $\Delta_\mathbf{x}J$ among
+ these five last iterations.
 
 \section{GEOS-Chem Forward Modeling}
 
-The GEOS-Chem chemistry transport model is used to simulate the ambient concentrations 
-of atmospheric aerosols.
+ The GEOS-Chem chemistry transport model is used to simulate the ambient concentrations 
+ of atmospheric aerosols.
 
-The GEOS-Chem aerosol simulatiion was based on the GOCART model [Chin et al., 2002], 
-particularly for wet scavenging, with updates described by Park et al. [2004]. 
+ The GEOS-Chem aerosol simulatiion was based on the GOCART model [Chin et al., 2002], 
+ particularly for wet scavenging, with updates described by Park et al. [2004]. 
 
-\section{GEOS-Chem Adjoint Modeling}
-
-
-
- \textit{Overview} \hspace{0.2cm} 
- This chapter presents how the physical process that mineral dust 
- involved are quantitatively respresented in a chemistry transport model, i.e., 
- the GEOS-Chem model. These processes include the uplifting of dust from soil surface, 
- the transport within the atmosphere, and despoistion of dust to the surface. 
-
-\section{Modeling of Dust Emission}
-
-\subsection{Physical parameterization of the dust emission}
+ Particularlly for the interest of this study
+ \subsection{Anthropogenic aerosol emissions} 
+ 
+ \subsection{Dust emissions}
 
   The dust emission, aerolian wind erosion that results in production of mineral aerosols
-  from soil grains, involves complex and nonlinear processes that are governed by the 
-  meteorology as well as by the state and properties of the land surfaces. Laboratory 
+  from soil grains, involves complex and nonlinear processes that are governed by the
+  meteorology as well as by the state and properties of the land surfaces. Laboratory
   [Iversen and White, 1982] and field [Shao et al., 1996; Zender et al., 2003] wind tunnel
-  studies suggested that dust is primiarily injected into the atmosphere during the 
+  studies suggested that dust is primiarily injected into the atmosphere during the
   sandblasting caused by the saltation bombardment [Alfaro and Gomes, 2001; Grini et al.,
-  2002]. The clay- and silt-sized soil particles have strong inter-cohesive force... 
+  2002]. The clay- and silt-sized soil particles have strong inter-cohesive force...
   The saltation of sand-sized particles ... requires least threshold of wind speed...
 
 
-  The most important factors include wind friction velocity and its threshold for 
-  saltation, vegetation cover, soil minerology, and surface soil moisture. 
+  The most important factors include wind friction velocity and its threshold for
+  saltation, vegetation cover, soil minerology, and surface soil moisture.
 
-  In this study, the physical parameterization of dust emission is taken from a Dust 
+  In this study, the physical parameterization of dust emission is taken from a Dust
   Entrainment and Deposition (DEAD) model developed by Zender et al [2003a]. The DEAD scheme
-  calculates the wind friction threshold ($u_{*t}$) as a function of the Reynolds number 
-  following Iversen and White [1982] and Marticorena and Bergametti [1995]. Three processes 
-  are also considered to modify the $u_{*t}$: the drag partitioning owing to the momentum 
-  captured by nonerodible roughness elements, the Owen effect, and moisture inhition. The 
-  horizontal saltation flux ($Q_s$) that is defined as the vertical integral of the 
+  calculates the wind friction threshold ($u_{*t}$) as a function of the Reynolds number
+  following Iversen and White [1982] and Marticorena and Bergametti [1995]. Three processes
+  are also considered to modify the $u_{*t}$: the drag partitioning owing to the momentum
+  captured by nonerodible roughness elements, the Owen effect, and moisture inhition. The
+  horizontal saltation flux ($Q_s$) that is defined as the vertical integral of the
   stream-wise soil flux density is calculated following the theory of White [1979]:
   \begin{equation}
   Q_s(u_*,u_{*t}) = \frac{c_s \rho}{g} u_*^3
         \left(1-\frac{u_{*t}}{u_*}\right)
         \left(1+\frac{u_{*t}}{u_*}\right)^2 \mbox{,}
   \end{equation}
-  where, $c_s=2.61$, $\rho$ is the air density at surface level, and $u*$ is the wind 
+  where, $c_s=2.61$, $\rho$ is the air density at surface level, and $u*$ is the wind
   friction velocity. Thus, it assumes the saltaion flux is quasi-lienarly the $u_*^3$ when
-  $u_*$ exceeds the $u_{*t}$. It also neglect the dependence of total $Q_s$ on the soil size. 
+  $u_*$ exceeds the $u_{*t}$. It also neglect the dependence of total $Q_s$ on the soil size.
 
   the total
    vertical mass flux of dust into transport bin $j$ is
@@ -65,79 +155,30 @@ particularly for wet scavenging, with updates described by Park et al. [2004].
      \end{cases}
    \end{equation}
    where, $T_0$ is a tuning factor chosen to adjust the global amount, $A_m$ is the fraction
-   of bare solil exposed in a model grid cell, $S$ is called "erodiblity" or "perferential 
+   of bare solil exposed in a model grid cell, $S$ is called "erodiblity" or "perferential
    source function", $\alpha$ is the sandblasting mass efficiency factor which depends on the
-   mass fraction of clay particles in the parent soil, and $M_{i,j}$ indicates the mass 
+   mass fraction of clay particles in the parent soil, and $M_{i,j}$ indicates the mass
    fraction of \textit{i}th source mode carried into the \textit{j}th transport mode.
 
-\subsection{Development of the wind speed distribution}
+\section{GEOS-Chem Adjoint Modeling}
 
-  In order to incorporate the variability of wind speed due to the subgrid scale
-  circulations, we introduce a probability density function (PDF) of the wind speed
-  within each grid box. The dust emission is computed according to the fraction of 
-  the PDF that exceeds the threshold value:
-  \begin{equation}
-  E_{d} = \int^\infty_{u_{*t}} E(u_*) p(u_*) d u_* \mbox{.}
-  \end{equation}
-  Where $E(u_*)$ is the emission as a function of the surface wind friction velocity,
-  and $p(u_*)$ is the PDF of $u_*$ within the grid box. 
-
-  The PDF for surface wind speeds can be represented by a Weibull distribution 
-  [Justus et al., 1978] and has been used in recent studies [e.g., Grini and Zender,
-  2004; Grini et al., 2005; Ridley et al., 2013] to charaterize the subgrid dust 
-  emissions. The PDF of a Weibull random variable $x$ is described by a shape factor $k$ 
-  and a scale factor $c$:
-  \begin{equation}
-  p(x;c,k) = \frac{k}{c} (x/c )^{k-1}
-         \exp{\left[ -(x/c)^k \right]} \mbox{,  for } x>0 \mbox{.} 
-  \end{equation}
-  One of the advantages in using the Weibull PDF is that it is analytically 
-  integrable with the cumulative distribution function:
-  \begin{equation}
-  P(x \leq x_1;c,k) = 1 - \exp{ \left[ -(x/c)^k\right] } \mbox{.}
-  \end{equation} 
-  Based on above cumulative function, we cut off wind speeds with a minimum and a 
-  maximum wind speed to retain the central 98\% of the wind PDF. As a result, the 
-  lower and upper limits of wind speed are respectively:
-  \begin{align} 
-  x_{l} &= c \left[ -\ln{0.99} \right]^{\frac{1}{k}}  \\
-  x_{u} &= c \left[ -\ln{0.01} \right]^{\frac{1}{k}} \label{eq:xu}
-  \end{align}
-
-  Parameters $k$ and $c$ can be estimated from the statistical mean $\bar{x}$ and 
-  variance $\sigma^2$ (of $x$), since they are related to $\bar{x}$ and $\sigma^2$: 
-  \begin{align}
-  \bar{x}  &= c \Gamma(1+1/k)  \\
-  \sigma^2 &= c^2 \left[ \Gamma(1+2/k) - \Gamma^2(1+1/k) \right]  
-  \end{align}
-  Where $\Gamma()$ is a gamma function. According to Justus et al. [1978], $k$ and $c$ 
-  can be best estimated by:
-  \begin{align}
-  k &= (\sigma/\bar{x})^{-1.086} \\
-  c &= \bar{x} \left[ \Gamma(1+1/k) \right]^{-1}
-  \end{align}
-  
-  Thus, the only parameter that must be supplied beyound the mean wind speed is the 
-  variance ($\sigma^2$) of subgrid wind speeds within the grid box. Cakmur et al [2004] 
-  calculated the $\sigma^2$ by incorporating information from the parameterizations of 
-  the planetary boundary layer along with dry and moist convection. Here, we follow 
-  Grini and Zender [2004] and Grini et al [2005] that assumed an approximation of $k$ 
-  based on Justus et al. [1978]:
-  \begin{equation}
-  k = 0.94u_*^{\frac{1}{2}}
-  \end{equation}
-
-  Finally, the dust emission flux is calculated by
-  \begin{equation} \label{eq:Edp}
-  E_{d,j} = A_m S \alpha \left( \displaystyle{\sum_{i=1}^3 M_{i,j}} \right)
-          \frac{c_s \rho}{g}
-          \displaystyle \int_{u_{*t}}^{u_{*u}} 
-          u_*^b\left(1-\frac{u_{*t}}{u_*}\right)
-          \left(1+\frac{u_{*t}}{u_*}\right)^2 
-          p(u_*) d u_* \mbox{.}
-  \end{equation}  
-  Where $u_{*u}$ is the upper limit of wind speed determined by equation (\ref{eq:xu}).
-  
-
-\section{Modeling of Dust Transport and Deposition}
-
+ The adjoint of the GEOS-Chem model was developed specifically
+ for inverse modeling of aerosol (or their precursors)
+ and gas emissions \citep{henze07,henze09},
+ and it is continuously improved and maintained
+ by the GEOS-Chem Adjoint and Data Assimilation
+ Working Group and its users
+ (\url{http://wiki.seas.harvard.edu/geos-chem/index.php/GEOS-Chem_Adjoint}).
+ The strength of the adjoint model is
+ its ability to efficiently calculate model sensitivities
+ with respect to large sets of model parameters,
+ such as aerosol emissions at each grid box.
+ These sensitivities can serve as the gradients needed for
+ inverse modeling of aerosol emissions.
+ Recent studies have used the GEOS-Chem adjoint with
+ satellite observations to constrain sources of species
+ such as \ce{CO} \citep{kopacz09,kopacz10,jiang11},
+ \ce{CH4} \citep{,wecht12}, and \ce{O3} \citep{parrington12}
+ to diagnose source regions for long-range transport \citep{henze09,kopacz11},
+ and to provide guidance on future geostationary observations
+ of surface air quality \citep{zoogman11}.
