@@ -11,8 +11,8 @@
  emissions over China for April 2008, during which ground-based 
  PM\textsubscript{10} (particulate matter with aerodynamic diameter of 
  10 $\mu$m or less) data is available from a joint China-U.S. 
- dust field experiment [Huang et al., 2010]. 
- This paper differs from the past work in that: 
+ dust field experiment \citep{huang10}. 
+ This study differs from the past work in that: 
  (i) satellite reflectance (in essence radiance) is used 
  to constrain the emission estimates of aerosol particle and precursors, 
  which eliminates the discrepancy of aerosol optical properties 
@@ -29,31 +29,27 @@
  a necessary step forward for future research to simultaneously 
  use both gas and AOD measurements to constrain speciated aerosol emissions. 
 
- We describe the top-down inversion scheme and its key components 
- (i.e., GEOS-Chem forward model and its adjoint, and observational constraints) 
- in Section 2. The top-down constraints on aerosol emissions over China 
- for the period of April 2008 are presented in Section 3, 
- and evaluated in Section 4. Interpretation and 
- implications of the results are discussed in Section 5, 
- and Section 6 summaries this study. [needs updates!!!!]
+ We present the general structure of our inversion methodology in section \ref{sec:generalstr}. 
+ The observation constraints are described in section \ref{sec:modisobs}, 
+ and followed by the inversion strategies in section \ref{sec:invstrategy}. 
+ The top-down constraints on aerosol emissions over China 
+ for the period of April 2008 are presented in section \ref{sec:invresult}, 
+ and evaluated by indepdent observation acquired from various platforms in section \ref{sec:invevaluation}.
+ Interpretation and implications of the results are discussed in section \ref{sec:invimplication}, 
+ and section \ref{sec:invsummary} summaries this chapter.
 
- \begin{figure}[ht]
-  \centering
-  \includegraphics[width={0.7\textwidth}]{figures/a1.pdf}
-  \caption{Flowchart of the proposed top-down inversion framework.}
-  \label{fig:flowchat}
- \end{figure}
+ \section{General Structure of Inversion} \label{sec:generalstr}
 
  As shown in Figure \ref{fig:flowchat}, the top-down inversion approach in this study 
- integrates the MODIS radiance/reflectance with the GEOS-Chem (section 2.1) 
- and its adjoint model (section 2.2) to optimize aerosol emissions. 
- First, similar to Wang et al. [2010], we retrieve the atmospheric 
+ integrates the MODIS radiance/reflectance with the GEOS-Chem (section \ref{sec:gc}) 
+ and its adjoint model (section \ref{sec:gcadj}) to optimize aerosol emissions. 
+ First, similar to \citet{wang10}, we retrieve the atmospheric 
  aerosol mass and AOD through fitting the calculated radiance based on 
  GEOS-Chem aerosol composition and single optical properties to the MODIS 
- cloud-free radiances (section 2.3). Second, the retrieved AOD 
+ cloud-free radiances (section \ref{sec:modisobs}). Second, the retrieved AOD 
  (hereafter retrieved MODIS AOD) from the first step is used as 
  an observational constraint to optimize the aerosol emissions 
- by inverting the GEOS-Chem chemical transport model (section 2.4). 
+ by inverting the GEOS-Chem chemical transport model. 
  The approach aims to improve aerosol emission estimates that ultimately 
  will yield better agreement between model simulated and satellite-observed 
  reflectances.  Since the aerosol single scattering properties are 
@@ -62,16 +58,24 @@
  uses the MODIS radiances (in the form of retrieved AOD) to scale the 
  GEOS-Chem aerosol mass, which in turn are used to optimally adjust 
  the aerosol emissions. The approach here is first demonstrated through 
- a pseudo-observation experiment (Section 2.5) before it is applied 
- to real observations (Section 3).
+ a pseudo-observation experiment (section \ref{sec:pseudo}) before it is applied 
+ to real observations (Section \ref{sec:invresult}).
 
-\section{Constraints from Satellite Radiances}
+ \begin{figure}[t]
+  \centering
+  \includegraphics[width={0.7\textwidth}]{figures/a1.pdf}
+  \caption{Flowchart of the proposed top-down inversion framework \citep{xu13}.}
+  \label{fig:flowchat}
+ \end{figure}
+
+\section{Constraints from Satellite Radiances} \label{sec:modisobs}
 
  The observational constraints in this study are 
  MODIS reflectances from both Terra and Aqua satellites, 
  from which four-dimensiaonal mass concentrations of six aerosol species 
- (namely, \ce{SO4}, \ce{NO3}, \ce{NH4}, BC, OC, and dust) have been derived 
- with the GEOS-Chem model using the retrieval algorithm presented by Wang et al. [2010]. 
+ (namely, sulfate (\ce{SO4}), nitrate (\ce{NO3}), amomnium (\ce{NH4}), black carbon (BC), 
+ organic carbon (OC), and mineral dust) have been derived 
+ with the GEOS-Chem model using the retrieval algorithm presented by \citet{wang10}. 
  Key to this algorithm are: 
  (a) a database of time-dependent local 0.65 and 2.1 $\mu$m surface reflectance ratio 
  that are derived from samples of the MODIS dark-pixel reflectance data in low AOD conditions 
@@ -79,27 +83,39 @@
  (b) an assumption that the simulated CTM aerosol is unbiased 
  in composition and vertical distribution shape but possibly largely biased 
  in total mass or optical depth, 
- and (c) a linearized radiative transfer model (VLIDORT [Spurr, 2006]) 
+ and (c) a linearized radiative transfer model (VLIDORT \citep{spurr06}) 
  that computes the top-of-atmosphere (TOA) reflectance 
  and its Jacobian sensitivity to the column AOD using 
  the GEOS-Chem single aerosol optical properties 
  and the solar-earth-sensor geometries of the coincident MODIS scene. 
- With above (a), (b), and (c), Wang et al. [2010] retrieved two unknowns 
- (AOD at 0.65 $\mu$m and surface reflectance at 2.13 $\mu$m) 
- from two MODIS observed quantities (0.65 and 2.13 $\mu$m TOA reflectance) 
+ With above (a), (b), and (c), \citet{wang10} retrieved two unknowns
+ (i.e., AOD at 0.65 $\mu$m and surface reflectance at 2.13 $\mu$m)
+ from two MODIS observed quantities (i.e., 0.65 and 2.13 $\mu$m TOA reflectance) 
  by seeking the minimum differences between GEOS-Chem and MODIS reflectance. 
  Based on (b), mass concentrations of individual aerosol species 
  at each MODIS overpassed grid cell are updated by applying the AOD scaling factors 
  (ratios of retrieved AOD to GEOS-Chem AOD at 0.65 $\mu$m) 
  and are used as observational constraints for optimizing aerosol emissions. 
- According to the evaluation of the retrieved AOD against AERONET AOD [Wang et al., 2010], 
+
+ Figures \ref{fig:modisobs}a and \ref{fig:modisobs}b show the two-month averages of the 0.65-$\mu$m AOD
+ retrieved using the approach by \citet{wang10} and the MODIS collection 5 products. 
+ Althogh sharing simialr pattern of spatial distributions, their retrieved AOD is quantitatively smaller
+ and are in better agreement with the AERONET AODs (figure \ref{fig:modisobs}c--d). 
+ According to the evaluation of the retrieved AOD against these AERONET AODs, 
  we found the uncertainty is generally less than 20\%, 
  which we subsequently use to quantify the observation error 
  in the inverse modeling optimization. 
 
+ \begin{figure}[t]
+  \centering
+  \includegraphics[width={0.8\textwidth}]{figures/a1i.pdf}
+  \caption{The 0.65 $\mu$m AOD retrieved by \citep{wang10} compared with the MODIS operational collection 5 AOD products. (a) and (b) are their two-month averages for the period of April--May, 2008. The correspondong two-month averages of 0.65-$\mu$m AOD collected at size AERONET sites are color-coded as circles. (c) and (d) are their scatterplot against AOD observed from AERONET sites indicated on the above map. \citep[from][]{wang10}.}
+  \label{fig:modisobs}
+ \end{figure}
+
  GEOS-Chem simulated aerosol composition over Asia is shown by multiple studies 
  to have large underestimation in BC, and equivalent or larger underestimation 
- of OC mass and overestimation of sulfate aerosol mass [Heald et al., 2005; Fu et al., 2012], 
+ of OC mass and overestimation of sulfate aerosol mass \citep{heald05,fu12},
  which suggests that the mass fraction of highly absorbing (BC) 
  and highly scattering (OC and sulfate) fine mode aerosols may have far less biases 
  (as compared to the relative bias in OC mass only). 
@@ -116,49 +132,48 @@
  Quantification of such bias is not possible for the present study 
  owing to the lack of aerosol composition data in China.
 
-\section{Inversion Strategies}
+\section{Inversion Strategies} \label{sec:invstrategy}
 
 \subsection{Selection of emissions for optimization} \label{sec:selectems}
 
- The inversion scheme and the MODIS-based constraints, as described in the last three sections, 
+ The inversion scheme and the MODIS-based constraints, as described in the preceding sections, 
  are combined to constrain the aerosol emissions over the Eastern Asia 
  for the period of April 2008. 
  The modeled emission parameters that most significantly influence the discrepancy 
  between simulation and observations are selected and spatially constrained. 
  Specifically, those model parameters (or control parameters) represent six emitted tracers, 
- as listed in Table 2, which include emissions of \ce{SO2}, \ce{NH3}, and \ce{NOx}, BC, 
+ as listed in Table \ref{tab:ems1}, which include emissions of \ce{SO2}, \ce{NH3}, and \ce{NOx}, BC, 
  and OC from anthropogenic sources, and mineral dust. 
  Bottom-up inventories (and an online mobilization scheme for dust) are used as 
  \textit{a priori} estimates, corresponding magnitudes and geographic distributions 
- of which are shown in Table 2 and Figure \ref{fig:ems1}, respectively. 
+ of which are shown in Table \ref{tab:ems1} and Figure \ref{fig:ems1}, respectively. 
  The temporal extent of the optimization window is selected 
  to be reconcilable with the temporal variability of the bottom-up emission. 
  We set optimization window of a month for those trace gases and carbonaceous emission tracers; 
  while dust emission tracers are constrained daily in a separate optimization run 
- following approach by Wang et al., [2012]. 
+ following approach by \citet{wang12}. 
  Both optimizations assimilate hourly observations during the adjoint simulation. 
 
  The 4D-Var technique in the optimization requires background 
  error covariance statistics for each control parameter. 
  We specify the priori error for those emission tracers 
  based on characterized spatial and temporal averaged uncertainties for those inventories 
- [Zhang et al., 2009; Bond et al., 2007; Zender et al., 2003] 
+ \citep{zhang09b,bond07,zender03a},
  but with larger values to reflect the possibly large local aerosol emission 
  uncertainties in the bottom-up inventories. 
  The uncertainty for \ce{SO2} emission estimate is believed 
  to be smaller than those for \ce{NH3} and \ce{NOx}, 
- while uncertainties of other tracers could be even larger 
- [Textor et al., 2006; Zhang et al., 2009]. 
+ while uncertainties of other tracers could be even larger \citep{textor06,zhang09b}.
  Therefore, we set relative error of 50\% for \ce{SO2}, 100\% for \ce{NH3} and NOx, 
  200\% for BC, OC, and dust sources. 
  Lacking information to fully construct a physically representative 
  prior error covariance matrix, a regularization parameter $\gamma$ 
- is introduced in the cost function to balance the contribution of model error and source error,  with a value (here $\gamma = 1000$) selected using the L-curve technique [Hansen, 1998]. 
+ is introduced in the cost function to balance the contribution of model error and source error,  with a value (here $\gamma = 1000$) selected using the L-curve technique \citep{hansen98}. 
  Moreover, in order to test the impact of those specified uncertainties on the optimization, 
  we run a case with an arbitrary prior error of 100\% for all emission tracers, 
- and present the results in Table 3. 
+ and present the results in Table \ref{tab:errorsensi}. 
 
- \subsection{Sensitivity test with pseudo AOD observations}
+ \subsection{Sensitivity test with pseudo AOD observations} \label{sec:pseudo}
 
  We first conduct a pseudo experiment to assess: 
  (1) the concept that temporal variations and geophysical location of AOD, 
@@ -171,9 +186,9 @@
  are first conducted to obtain prior aerosol composition 
  and 0.65 $\mu$m AOD for the period from April 5 to 11 of 2008; 
  (b) Pseudo-observations of AOD are created by perturbing the following emissions 
- (relative to bottom-up EIs) in GEOS-Chem: +20\% for \ce{SO2}, \ce{NH3}, and \ce{NOx}, 
- -40\% for dust, and zero for BC and OC (Table 1); 
- (c) These pseudo-observations of AOD in the dark surface region (red box in Figure 2a), 
+ (relative to bottom-up EIs) in GEOS-Chem: $+$20\% for \ce{SO2}, \ce{NH3}, and \ce{NOx}, 
+ $-$40\% for dust, and zero for BC and OC (Table \ref{tab:pseudo1}); 
+ (c) These pseudo-observations of AOD in the dark surface region (red box in Figure \ref{fig:pseudo1}a), 
  twice per day, respectively at the Terra and Aqua overpass daytime, 
  are subsequently used as truth to constrain emissions using the GEOS-Chem adjoint-based inversion. 
 
@@ -189,16 +204,16 @@
  The degree to which the inversion can correct for species-specific errors in the emissions 
  is assessed in these sensitivity tests by comparing the optimized aerosol emissions 
  from (c) can then be evaluated against the truth, or the perturbed emissions in (b).  
- Figure \ref{tab:pseudo1} shows the distribution of relative changes in posterior emissions 
+ Figure \ref{fig:pseudo1} shows the distribution of relative changes in posterior emissions 
  from the 6th iteration with respect to the prior bottom-up emissions for each species; 
  the overall changes over the China are shown in Table \ref{tab:pseudo1}.
- By the 6\textsuperscript{th} iteration, the cost function reduced by 50\%; 
+ By the 6th iteration, the cost function reduced by 50\%; 
  further iterations yielded negligible additional decreases. 
  The posterior emissions for \ce{SO2} and \ce{NH3}, which increased by 14\% from the prior, 
  are close to the “truth” (20\%). \ce{NOx} emissions were increased by 8\%, 
  a smaller change than \ce{SO2} and \ce{NH3}. 
  Dust emissions reduced by 26\% percent in the inversion, 
- approaching the true values of -40\%.
+ approaching the true values of $-$40\%.
  BC and OC emissions were increased by 2\% and 3\%, which are close to the truth of 0. 
 
  Overall, this sensitivity study demonstrates that the inversion is capable of resolving the sign,
@@ -224,24 +239,23 @@
   \small
   \caption{Prior, posterior, and perturbed aerosol emissions over China in the pseudo experiment.}
   \label{tab:pseudo1}
-  \begin{tabular}{>{\centering\arraybackslash}m{0.10\textwidth}
-                  >{\centering\arraybackslash}m{0.15\textwidth}
-                  >{\centering\arraybackslash}m{0.15\textwidth}
-                  >{\centering\arraybackslash}m{0.15\textwidth}
-                  >{\centering\arraybackslash}m{0.15\textwidth} }\toprule
-    Tracer & $E_\text{prior}$ (Gg/Month) & $E_\text{posterior}$ (Gg/Month)& $E_\text{posterior}/E_\text{prior}$ (\%)& $E_\text{perturbed}/E_\text{prior}$ (\%)\\ \midrule
+  \begin{tabular}{m{3em} C{5em} C{5em} C{6em} C{6em}}
+    \toprule
+    Tracer & $E_\text{prior}$ (Gg/Month) & $E_\text{posterior}$ (Gg/Month)& $E_\text{posterior}/E_\text{prior}$ (\%)& $E_\text{perturbed}/E_\text{prior}$ (\%)\\ 
+    \midrule
     \ce{SO2} & 520.8 & 592.0 & 113.7 & 120 \\
     \ce{NH3} & 219.3 & 249.2 & 113.7 & 120 \\
     \ce{NOx} & 338.8 & 365.3 & 107.8 & 120 \\
     BC & 23.3 & 23.8 & 102.3 & 100 \\
     OC & 39.7 & 41.1 & 103.4 & 100 \\
-    Dust & 2301 & 1697 & 73.7 & 60 \\ \bottomrule
+    Dust & 2301 & 1697 & 73.7 & 60 \\ 
+    \bottomrule
   \end{tabular}
 \end{table}
 
-\section{Inversion Results}
+\section{Inversion Results} \label{sec:invresult}
 
- \begin{figure}[ht]
+ \begin{figure}[t]
   \centering
   \includegraphics[width={0.95\textwidth}]{figures/a3.pdf}
   \caption{Comparison of the prior (a) and posterior (b) GEOS-Chem (GC) simulation
@@ -255,12 +269,12 @@
   \label{fig:aod1}
  \end{figure}
 
- With the feasibility of the approach demonstrated in Section 2, 
+ With the feasibility of the approach demonstrated in section \ref{sec:pseudo}, 
  we apply the approach to MODIS radiance data in April 2008. 
  The emissions that result from each iteration during the optimization 
  enable GEOS-Chem to produce a different set of AOD values 
  that converge to the observational constraints. 
- Figure \ref{fig:aod1}c shows the geographic distribution of GEOS-Chem AOD at 0.65 $\mu$m, 
+ Figure \ref{fig:aod1}a shows the geographic distribution of GEOS-Chem AOD at 0.65 $\mu$m, 
  simulated with prior aerosol emissions, averaged coincidently with retrieved daily MODIS AOD 
  (Figure \ref{fig:aod1}c) during April 2008. 
  While the prior model simulation captures the overall spatial pattern of AOD 
@@ -273,7 +287,7 @@
  we find that after 6 iterations of the GEOS-Chem forward and adjoint runs, 
  the cost function is reduced by about 60\%, 
  and further iterations yield negligible reductions in the cost function. 
- Therefore, the aerosol emissions adjusted in iteration 6 are selected as the final optimal results. 
+ Therefore, the aerosol emissions adjusted from the 6th iteration are selected as the final optimal results. 
  As shown in Figure \ref{fig:aod1}b and \ref{fig:aod1}e, the posterior GEOS-Chem AOD 
  that are simulated with the optimized aerosol emissions 
  are in much better agreement with their counterparts retrieved from MODIS reflectance, 
@@ -287,6 +301,28 @@
   \caption{(a) Time series of the spatially averaged daily MODIS AOD retrievals (purple) for April 2008 over the Eastern China, compared by the prior (orange) and posterior (green) spatial averaged daily GEOS-Chem AOD that are sampled in the MODIS AOD tempo-spatial space. (b) Time series of the expected daily AOD adjustments (orange) that are the differences between MODIS AOD and the prior GEOS-Chem AOD and their real adjustments (green) that are the differences of posterior from prior GEOS-Chem AOD. (c) Time series of the prior (orange) and posterior (green) daily dust emissions over China for April 2008.}
   \label{fig:dailyaod}
  \end{figure}
+
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \caption{List of prior and posterior aerosol emissions in China during April 2008.}
+  \label{tab:ems1}
+  \begin{tabular}{m{3em} C{4em} C{4em} C{5em} C{3em}
+                  C{4em} C{0.1em} C{5em} C{4em} R{3em} }
+    \toprule
+    \multicolumn{1}{l}{} & \multicolumn{5}{c}{Bottom-Up} & \multicolumn{1}{c}{} & \multicolumn{3}{c}{Top-Down}      \\
+    \cline{2-6} \cline{8-10}
+    Tracer &  $E_\text{prior}$ (TgMon$^{-1}$) & \textit{a priori} error (\%) & Inventory & Base year & Temporal resolution & & Optimization window & $E_\text{posterior}$ (TgMon$^{-1}$) & ${\Delta}E$ (\%) \\
+    \midrule
+    \ce{SO2} & 2.60  & 50  & INTEX-B & 2006   & Annual  & & Monthly & 1.73 & $-$33.5 \\
+    \ce{NH3} & 1.10  & 100 & INTEX-B & 2000   & Annual  & & Monthly & 0.72 & $-$34.5 \\ 
+    \ce{NOx} & 1.69  & 100 & INTEX-B & 2006   & Monthly & & Monthly & 1.38 & $-$18.8 \\
+    BC       & 0.11  & 200 & Bond07  & 2000   & Monthly & & Monthly & 0.10 & $-$9.1  \\ 
+    OC       & 0.21  & 200 & Bond07  & 2000   & Monthly & & Monthly & 0.18 & $-$15.0 \\
+    Dust     & 19.02 & 200 & DEAD    & Online & Hourly  & & Daily   & 8.30 & $-$56.4 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
  The convergence of the model simulation to the MODIS AOD retrievals 
  is also indicated in the AOD daily variability. 
@@ -316,9 +352,9 @@
  Emissions of \ce{SO2}, \ce{NH3}, \ce{NOx}, BC, and OC from anthropogenic sources
  are optimized monthly and rescaled over each individual
  2$^{\circ}$ by 2.5$^{\circ}$ grid cell of China for the month of April 2008.
- The prior and posterior (optimized) emissions of those tracers
+ The prior and posterior (optimized) emissions of these tracers
  are respectively shown in left and middle columns of Figure \ref{fig:ems1},
- in which the relative changes of those emissions in the optimization
+ in which the relative changes of these emissions in the optimization
  are also included in the right column. Overall, the optimization yields
  an overwhelming reduction for all emission tracers,
  even though some local increases are found.
@@ -326,9 +362,9 @@
  is consistent with the changes in GEOS-Chem AOD before and after optimization,
  as aerosol loadings usually positively respond to the aerosol emissions.
  Quantitatively, anthropogenic emissions over China continent for the study period
- are changed by $-$33.5\% for \ce{SO2} from 1.302 to 0.866 Tg, -34.5\% for \ce{NH3} from 1.096 to 0.718 Tg,
- -18.8\% for \ce{NOx} from 1.694 to 1.375 Tg, -9.1\% for BC from 0.11 to 0.10 Tg,
- and -15.0\% for OC from 0.205 to 0.175 Tg (Table 2).
+ are changed by $-$33.5\% for \ce{SO2} from 1.302 to 0.866 Tg, $-$34.5\% for \ce{NH3} from 1.096 to 0.718 Tg,
+ $-$18.8\% for \ce{NOx} from 1.694 to 1.375 Tg, $-$9.1\% for BC from 0.11 to 0.10 Tg,
+ and $-$15.0\% for OC from 0.205 to 0.175 Tg (see Table \ref{tab:ems1}).
  The largest reduction occurs sharply in the central regions of the Eastern China,
  corresponding to the region where the largest AOD are adjusted to the MODIS retrievals.
  Small increases of emitted anthropogenic sources of gases and carbonaceous particles
@@ -347,7 +383,7 @@
  reduced by 56.4\% from the modified DEAD module simulation of 19.02 Tg.
  Such reduction indicates an overestimation in the prior emissions of dust,
  especially over Gobi deserts that are located in the Northwestern China and the southern Mongolia.
- Wang et al. [2012] presented a similar result,
+ \citet{wang12} presented a similar result,
  but only for a dust event that occurred in the later portion of our study time period.
  Figure \ref{fig:dailyaod}c illustrates the time series of the prior and optimized
  daily total dust emission.
@@ -357,24 +393,44 @@
 
  An additional case with specified error of 100\% for all the anthropogenic emission tracers
  is conducted to examine the sensitivity of those specified error to the optimization.
- Table 3 shows the relative change in optimized emissions for two different scenarios.
- Less than 0.5\% difference in the optimized emissions is found,
+ Table \ref{tab:errorsensi} shows the relative change in optimized emissions for two different scenarios.
+ Less than 0.5\% of difference in the optimized emissions is found,
  which means the uncertainty in a priori emission could have
  much smaller impact on the optimization than the observational constraints.
 
-\section{Results Evaluations} 
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Test of the sensitivity of optimization with respect to prescribed a priori error.}
+  \label{tab:errorsensi}
+  \begin{tabular}{m{3em} C{4em} C{3em} C{0.1em} C{4em} C{3em} }
+    \toprule
+    \multicolumn{1}{l}{} & \multicolumn{2}{c}{Case 1} & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Case 2}      \\
+    \cline{2-3} \cline{5-6}
+    Tracer &  \textit{a priori} error (\%) & ${\Delta}E$ (\%) & & \textit{a priori} error (\%) & ${\Delta}E$ (\%) \\
+    \midrule
+    \ce{SO2} & 50  & $-$33.5 & & 100 & $-$33.7  \\
+    \ce{NH3} & 100 & $-$34.5 & & 100 & $-$34.4  \\
+    \ce{NOx} & 100 & $-$18.8 & & 100 & $-$18.8  \\
+    BC       & 200 & $-$9.1  & & 100 & $-$9.1   \\
+    OC       & 200 & $-$15.0 & & 100 & $-$15.0  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Results Evaluations}  \label{sec:invevaluation}
 
  Because direct measurements of the aerosol emissions are few over China,
  we assess the optimized sources by comparing the GEOS-Chem posterior
  simulated aerosol mass concentrations and AOD with
  the independent observations from various sources.
  The evaluation datasets include:
- (1) AERONET AOD observations [Holben et al., 1998] over nine sites;
- (2) Level 3 MISR daily AOD products [Kahn et al., 2005];
- (3) Level 3 SO2 [Krotkov et al., 2006; Lee at al., 2009]
- and Level 2 NO2 [Bucsela et al, 2006] retrievals from the Ozone Monitoring Instrument (OMI);
+ (1) AERONET AOD observations \citep{holben98} over nine sites;
+ (2) Level 3 MISR daily AOD products \citep{kahn05,martonchik09};
+ (3) Level 3 \ce{SO2} \citep{krotkov06,lee09}
+ and Level 2 \ce{NO2} \citep{bucsela06} retrievals from the Ozone Monitoring Instrument (OMI);
  (4) surface mass concentration of sulfate-nitrate-ammonium (SNA) aerosol particles over Qingdao, China;
- and (5) surface PM10 over two sites close to dust source region [Ge et al., 2010]. 
+ and (5) surface PM\textsubscript{10} over two sites close to dust source region \citep{ge10}. 
 
  \subsection{Comparison with AERONET AOD}
 
@@ -389,7 +445,7 @@
  The first three stations, i.e., (a) Zhangye, (b) SACOL, and (c) Jingtai,
  which are located over rural regions in the south boundary of Gobi deserts
  and have little influence from anthropogenic emissions,
- are representative sites for dust aerosol [Ge et al., 2010].
+ are representative sites for dust aerosol \citep{ge10}.
  The next three sites, (d) Beijing, (e) Xinglong, and (f) Heifei,
  are located in anthropogenic source regions.
  The last three sites, (g) Noto, (h) Shirahama, and (i) Gwangju\_K,
@@ -409,7 +465,7 @@
 
  The prior GEOS-Chem simulation (shown in the red scatter panels)
  overestimates the AERONET AOD for all the sites except Beijing.
- The low bias of model AOD at Beijing is likely owing to the model coarse resolution,
+ The negative bias of model AOD at Beijing is likely owing to the model coarse resolution,
  which fails to resolve heavy local urban pollution.
  The geographic area of urban Beijing is about 1300 km\textsuperscript{2}
  (\url{http://en.wikipedia.org/wiki/Beijing}),
@@ -424,7 +480,7 @@
  (shown in the green scatter panels),
  as indicated by reduced bias and root-mean-square-error (rmse) over all the other sites and
  increased correlation coefficients (R) for most sites.
- The overall comparison (Figure 6j) shows the correlation coefficient
+ The overall comparison (Figure \ref{fig:aeronet}j) shows the correlation coefficient
  increases from 0.54 to 0.63, and the bias (rmse) declines from 0.13 (0.27) to 0.03 (0.07). 
 
  \subsection{Comparison with MISR AOD }
@@ -448,31 +504,31 @@
  \end{figure}
 
  The monthly averages of prior and posterior GEOS-Chem 0.55 $\mu$m AOD
- mapped in Figure \ref{fig:misr1}a-b are sampled coincidently to the MISR AOD.
+ mapped in Figure \ref{fig:misr1}a--b are sampled coincidently to the MISR AOD.
  A comparison with the MISR AOD shows GEOS-Chem simulation with prior aerosol emissions
  overestimates AOD over both the desert and industrial regions.
  The posterior simulation is slightly more in agreement with MISR AOD.
  To facilitate the comparison of model with MISR AOD, we also include, as Figure \ref{fig:misr1}d,
  the scatterplots of the AOD for each GEOS-Chem grid cell with values larger than 0.2
- by considering the larger retrieval uncertainty in the low AOD conditions [Kahn et al., 2005].
+ by considering the larger retrieval uncertainty in the low AOD conditions \citep{kahn05,kahn10}.
  While the correlation coefficients remain about the same,
  both absolute bias and rmse are reduced about 30\%.
 
- \subsection{Comparisons with OMI Column \ce{SO2} and \ce{NO2}}
+ \subsection{Comparisons with OMI columnar SO\textsubscript{2} and NO\textsubscript{2}}
 
  The improvement in the optimized aerosol emissions is also exhibited
  in the comparison of simulated trace gases to the satellite retrievals from OMI.
  The GEOS-Chem \ce{SO2} simulations are assessed with OMI Level 3 daily products
  of planetary boundary layer (PBL) \ce{SO2} column gridded
  with 0.25$^{\circ}$ by 0.25$^{\circ}$ resolution.
- We average the OMI \ce{SO2} column retrievals into GEOS-Chem 2$^{\circ}$ by 2.5$^{\circ}$ grid cells
+ We average the OMI \ce{SO2} columnar retrievals into GEOS-Chem 2$^{\circ}$ by 2.5$^{\circ}$ grid cells
  and take the monthly average for comparison, which are shown in Figure \ref{fig:omso2}c.
  Figure \ref{fig:omso2}a and \ref{fig:omso2}b show model prior and posterior \ce{SO2} column
  that are coincidentally sampled with OMI retrievals.
  Figure \ref{fig:omso2}d illustrates the quantitative analysis for OMI \ce{SO2} retrievals
  larger than $1.0 \times 10^{16}$ molec cm$^{-2}$.
  With the optimized emission estimates, the bias and RMSE are reduced
- from 0.81 and 0.61 to – 0.28 and 0.38 ($10^{16}$molec cm$^{-2}$), respectively,
+ from 0.81 and 0.61 to – 0.28 and 0.38 ($\times 10^{16}$ molec cm$^{-2}$), respectively,
  along with an increase of correlation coefficient from 0.68 to 0.73. 
 
  %% Validation against OMI SO2
@@ -494,9 +550,8 @@
  We evaluate the model simulation of \ce{NO2} with OMI Level 2 products of
  \ce{NO2} tropospheric column over 0.25$^{\circ}$ by 0.25$^{\circ}$ grid cells.
  Recent studies suggested that the uncertainty in OMI \ce{NO2} tropospheric column retrievals
- is about 40\% with an about 15\% positive systematical bias
- [Boersma et al., 2008; Celarier et al., 2008].
- Following Lin et al. [2010], we apply a factor of 0.85 to OMI \ce{NO2} retrievals
+ is about 40\% with an about 15\% positive systematical bias \citep{Boersma08,Celarier08}.
+ Following \citet{lin10}, we apply a factor of 0.85 to OMI \ce{NO2} retrievals
  in our comparison to correct the bias.
  Figure \ref{fig:omno2} shows the comparison of GEOS-Chem \ce{NO2} columns
  with re-gridded OMI \ce{NO2} retrievals.
@@ -543,16 +598,16 @@
  and thus can be an indicator of the dust emissions in the first order.
  Figure \ref{fig:pm10} shows the prior and posterior GEOS-Chem surface
  PM\textsubscript{10} mass concentration compared with the ground-based measurements
- from the 2008 China-U.S. joint field experiment [Ge et al., 2010] over two the AERONET sites
+ from the 2008 China-U.S. joint field experiment \citep{ge10,huang10} over two the AERONET sites
  in Figure \ref{fig:aeronet}a-b, i.e., Zhangye (100.28$^{\circ}$ E, 39.08$^{\circ}$ N)
  and SACOL (204.14$^{\circ}$ E, 35.95$^{\circ}$ N), which are located
  on the downwind boundaries of the Gobi deserts.
- Based on the availability of the measurements data, comparisons are for the period of 15 $-$ 30 April 2008.
+ Based on the availability of the measurements data, comparisons are for the period of 15--30 April 2008.
  The measured surface PM\textsubscript{10} shows a strong daily variation.
- A strong dust event during 18$-$20 April can be found over both stations with
+ A strong dust event during 18--20 April can be found over both stations with
  PM\textsubscript{10} exceeding 400 $\mu$g m$^{-3}$.
  Two additional dust events with PM\textsubscript{10} over 400 $\mu$g m$^{-3}$ occurred during
- 24$-$26 and 29$-$30 April.
+ 24--26 and 29--30 April.
  The prior simulation generally captures the daily variation pattern
  but significantly overestimates the surface PM\textsubscript{10} for those dust events;
  prior simulated PM\textsubscript{10} reaches up to around 3000 $\mu$g m$^{-3}$ over Zhangye
@@ -567,7 +622,7 @@
  \subsection{Evaluation summary}
 
  A summary of evaluations of the prior and posterior model simulations
- is illustrated in Figure \ref{fig:taylor} using a Taylor diagram [Taylor, 2001].
+ is illustrated in Figure \ref{fig:taylor} using a Taylor diagram \citep{taylor01}.
  Taylor diagram provides a statistical summary of the model performance
  in terms of correlation coefficients (R), centralized root-mean-square difference (RMSD),
  and ratio of standard deviations between model and observations (or normalized standard deviation, NSD).
@@ -605,7 +660,7 @@
  Evaluations with all those independent observations indicate a notable
  improvement in the model simulation, reflecting a better estimate of aerosol emissions.
 
-\section{Implications of Results}
+\section{Implications of Results} \label{sec:invimplication}
 
   Interpretation of our inversion results can be from two different perspectives. 
 First, if assuming that bottom-up anthropogenic emissions are the best estimates for their base years (mostly 2006), 
@@ -618,7 +673,7 @@ is also found to be consistent to the increase in the top-down emission estimate
 In contrast to the first interpretation, the second one is that the difference of actual emissions between 2008 and their base year (2006)
 are smaller than the magnitude of adjustments in the optimization, 
 and hence our results imply that the priori bottom-up emissions might be artificially overestimated. 
-We further elucidate those two points below with a literature survey (data are summarized in Table 4).
+We further elucidate those two points below with a literature survey (data are summarized in Table \ref{tab:emssurvey}).
 
  %% Satellite AOD changes
  \begin{figure}[t]
@@ -628,57 +683,102 @@ We further elucidate those two points below with a literature survey (data are s
   \label{fig:aodchange}
  \end{figure}
 
- \subsection{\ce{SO2}}
+ \subsection{SO\textsubscript{2}}
 
-  The INTEX-B inventory by Zhang et al. [2009] reported an annual production of 31.02 Tg from anthropogenic sources over China. 
-A decrease trend of China SO2 emissions from 2006 to 2008 has been found based on bottom-up estimates by Lu et al. [2010] from 33.2 to 31.3 ( \~5.8\% decrease) Tg yr$^{-1}$
-and by China Ministry of Environmental Protection [2009] (hereafter referred to MEP-2008) from 25.9 to 23.2 Tg yr$^{-1}$ (\~10.4\% decrease).
-With OMI \ce{SO2} retrievals, Lu et al. [2010] found the dramatic reduction of \ce{SO2} emissions over the northern China for the same period. 
-Similar to this study, Lu et al. [2010] also presented that the reductions is more significant over the Eastern China. 
+  The INTEX-B inventory by \citet{zhang09b} reported an annual production of 31.02 Tg from anthropogenic sources over China. 
+A decrease trend of China SO2 emissions from 2006 to 2008 has been found based on bottom-up estimates by \citet{lu10} from 33.2 to 31.3 ( $\sim$5.8\% decrease) Tg yr$^{-1}$
+and by China \citet{mep09} (hereafter referred to MEP-2008) from 25.9 to 23.2 Tg yr$^{-1}$ ($\sim$10.4\% decrease).
+With OMI \ce{SO2} retrievals, \citet{lu10} found the dramatic reduction of \ce{SO2} emissions over the northern China for the same period. 
+Similar to this study, \citet{lu10} also presented that the reductions is more significant over the Eastern China. 
 They attribute some reduction to the widespread installation of flue-gas desulfurization devices in power plants, which is enforced by the China government since 2006. 
-Evidences for the reduction trend of \ce{SO2} emission also include the reduction of \ce{SO2} column from 2006 observed by both SCIAMACHY and OMI satellite sensors [Lu et al., 2011].
-With the same SCIAMACHY and OMI \ce{SO2} retrievals, Lee et al. [2011] obtained top-down estimates of China SO2 emissions, 
+Evidences for the reduction trend of \ce{SO2} emission also include the reduction of \ce{SO2} column from 2006 observed by both SCIAMACHY and OMI satellite sensors \citep{lu11}.
+With the same SCIAMACHY and OMI \ce{SO2} retrievals, \citet{lee11} obtained top-down estimates of China SO2 emissions, 
 which are lower by 50\% for SCIAMACHY and 30\% for OMI than the INTEX-B inventory. 
 Thus, the reduction of 33.5\% in the top-down China \ce{SO2} emissions of this work can be interpreted by the joint contribution of a decrease trend and a possible overestimation in INTEX-B bottom-up inventory.
 
- \subsection{\ce{NH3} } 
-  The \ce{NH3} emissions over China have not changed much since 2000, as confirmed by the REAS inventory [Ohara et al., 2007]. 
-Our study shows an overall decrease of 34.5\% in the optimized from the TRACE-P 2000 inventory [Streets et al., 2003], 
-which may indicate an overestimation in the TRACE-P inventory. 
-As shown in Table 4, the total amount of the constrained \ce{NH3} emission (0.72 Tg Mon$^{-1}$) for April 2008 is quite close to a recent bottom-up estimates (0.71 Tg Mon$^{-1}$) by Huang et al., [2012]. 
-Huang et al., [2012] also pointed out that the TRACE-P 2000 inventory significantly overestimates the \ce{NH3} emission by applying an overestimated emission factor across the whole country. 
+ \subsection{NH\textsubscript{3} } 
 
- \subsection{\ce{NOx}} 
-  Lin et al. [2010] constrained Chinese anthropogenic emissions of \ce{NOx} July 2008 with tropospheric \ce{NO2} retrievals from GOME-2 and OMI instruments.
-They found the top-down emissions are (10$-$15\%) lower than the \textit{a priori} near Beijing (in agreement with results from Mijling et al. [2009]),
+  The \ce{NH3} emissions over China have not changed much since 2000, as confirmed by the REAS inventory \citep{ohara07}.
+Our study shows an overall decrease of 34.5\% in the optimized from the TRACE-P 2000 inventory \citep{streets03},
+which may indicate an overestimation in the TRACE-P inventory. 
+As shown in Table \ref{tab:emssurvey}, the total amount of the constrained \ce{NH3} emission (0.72 Tg Mon$^{-1}$) for April 2008 is quite close to a recent bottom-up estimates (0.71 Tg Mon$^{-1}$) by \citet{Huang12}. 
+\citet{Huang12} also pointed out that the TRACE-P 2000 inventory significantly overestimates the \ce{NH3} emission by applying an overestimated emission factor across the whole country. 
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Comparisons for annually (Tg yr$^{-1}$) and/or for April only (Tg Mon$^{-1}$) estimates of Chinese aerosol emissions during 2006 and 2008.}
+  \label{tab:emssurvey}
+  \begin{tabular}{m{3em} m{14em} C{3em} C{3em} C{0.5em} C{3em} C{3em} }
+    \toprule
+    \multicolumn{2}{l}{} & \multicolumn{2}{c}{2006} & \multicolumn{1}{c}{} & \multicolumn{2}{c}{2006}      \\
+    \cline{3-4} \cline{6-7}
+    Tracer &  Emission inventories & Annual & April & & Annual\textsuperscript{a} & April \\
+    \midrule
+             & INTEX-B \citep{zhang09b} & 31.02 & 2.37 & & -     & - \\
+    \ce{SO2} & China MEP-2008           & 25.89 & -    & & 23.21 & - \\ 
+             & \citet{lu10}             & 33.2  & -    & & 31.3  & - \\
+             & This work                & -     & 2.60 & & 22.69 & 1.73 \\
+    \midrule
+             & TRACE-P \citep{streets03} & 13.6 & 1.10 & & -     & - \\
+    \ce{NH3} & \citet{huang12}           & 9.8  & 0.71 & & -     & - \\
+             & This work                 & -    & 1.10 & & 8.91  & 0.72 \\
+    \midrule
+             & INTEX-B \citep{zhang09b} & 20.83 & 1.63 & & -     & - \\
+    \ce{NOx} & \citet{lin10}            & -     & -    & & 22.34 & - \\
+             & This work                & -     & 1.69 & & 17.60 & 1.38 \\
+    \midrule
+             & INTEX-B \citep{zhang09b} & 1.81  & 0.12 & & -     & - \\
+             & \citet{qin12}            & 1.55  & -    & & 1.61  & - \\
+    BC       & \citet{lu11}             & 1.63  & -    & & 1.68  & - \\
+             & \citet{zhao13}           & 1.60  & -    & & 1.60  & - \\
+             & This work                & -     & 0.11 & & 1.51  & 0.10 \\
+    \midrule
+             & INTEX-B \citep{zhang09b} & 3.22  & 0.19 & & -     & - \\
+    OC       & \citet{lu11}             & 3.42  & -    & & 3.37  & - \\
+             & \citet{zhao13}           & 2.90  & -    & & 2.80  & - \\
+             & This work                & -     & 0.21 & & 2.92  & 0.18 \\
+    \bottomrule
+    \multicolumn{6}{m{29em}}{\textsuperscript{a}Our annual top-down estimates (Tg yr$^{-1}$) are based on the monthly variation of the INTEXT-B inventory.} 
+  \end{tabular}
+\end{table}
+
+
+ \subsection{NOx} 
+
+  \citet{lin10} constrained Chinese anthropogenic emissions of \ce{NOx} in July 2008 with tropospheric \ce{NO2} retrievals from GOME-2 and OMI instruments.
+They found the top-down emissions are (10$-$15\%) lower than the \textit{a priori} near Beijing (in agreement with results from \citet{Mijling09}),
 in the northeastern provinces and along the east coast; yet they exceed the a priori over many inland regions. 
 Overall, they presented a best top-down estimate of annual \ce{NOx} production is 6.8 Tg N, or 22.34 Tg NO2, which is slightly higher than the \textit{a priori}. 
-While the change in \ce{NOx} emission over China remains controversy, the 18.8\% difference of posterior NOx emissions from the bottom-up still lies in the 31\% uncertainty of the inventory [Zhang et al., 2009].
+While the change in \ce{NOx} emission over China remains controversy, the 18.8\% difference of posterior NOx emissions from the bottom-up still lies in the 31\% uncertainty of the inventory \citep{zhang09b}.
 We argue bottom-up \ce{NOx} estimate from INTEX-B inventory could have a possible overestimation.   
 
  \subsection{BC and OC}  
+
   Major emitting sectors of BC and OC are coal and biofuel combustion by industry, residential, and transportation activities. 
 The trend of BC and OC emissions in China during recent years are controlled by the balance between decrease in emission factor which is pertain to improved technology and increase in coal and fuel consumptions. 
-According to MEP-2008 [Environmental Protection Administration, 2009], the annual smoke emission in China decreased by about 17.2\% from 2006 to 2008. 
-While BC and OC emissions estimated by Lu et al. [2011] and Zhao et al. [2013] remain almost same between 2006 and 2008, Qin and Xie [2012] reported a 3.8\% increase. 
-The top-down BC emission is 0.10 Tg mon$^{-1}$ (or 1.509 Tg yr$^{-1}$ based on the monthly variation in INTEX-B inventory), which is smaller than that in INTEX-B, but close to estimates of 1.61 Tg yr$^{-1}$ by Qin and Xie [2012] and 1.68 Tg yr$^{-1}$ by Lu et al. [2011]. 
-In terms of China OC emission estimates for 2008, Lu et al. [2011] suggested a slightly larger value (3.37 Tg yr$^{-1}$) while Zhao et al. [2013] indicated a smaller value (2.8 Tg yr$^{-1}$) than INTEX-B (3.22 Tg yr$^{-1}$).  Our OC emission estimate (0.18 Tg mon$^{-1}$ or 2.92 Tg yr$^{-1}$) is within their reported range. 
-It is noted that the uncertainty for OC emissions is reported to be very large: 258\% in INTEX-B [Zhang et al., 2009], $-$43\% to 80\% by Lu et al. [2011], and $-$42\% to 114\% in a recent study by Zhao et al. [2013].
+According to MEP-2008 \citep{mep09}, the annual smoke emission in China decreased by about 17.2\% from 2006 to 2008. 
+While BC and OC emissions estimated by \citet{lu11} and \citet{zhao13} remain almost same between 2006 and 2008, \citet{qin12} reported a 3.8\% increase. 
+The top-down BC emission is 0.10 Tg mon$^{-1}$ (or 1.509 Tg yr$^{-1}$ based on the monthly variation in INTEX-B inventory), which is smaller than that in INTEX-B, but close to estimates of 1.61 Tg yr$^{-1}$ by \citet{qin12} and 1.68 Tg yr$^{-1}$ by \citet{lu11}. 
+In terms of China OC emission estimates for 2008, \citet{lu11} suggested a slightly larger value (3.37 Tg yr$^{-1}$) while \citet{zhao13} indicated a smaller value (2.8 Tg yr$^{-1}$) than INTEX-B (3.22 Tg yr$^{-1}$).  
+Our OC emission estimate (0.18 Tg mon$^{-1}$ or 2.92 Tg yr$^{-1}$) is within their reported range. 
+It is noted that the uncertainty for OC emissions is reported to be very large: 258\% in INTEX-B \citep{zhang09b}, $-$43\% to 80\% by \citet{lu11}, and $-$42\% to 114\% by \citet{zhao13}.
 
  \subsection{Mineral dust} 
-  The \~50\% reduction in the posterior dust emission estimates suggests the use of DEAD mobilization scheme with GOCART source function possibly tends to produce a systematic positive bias over the Taklimakan and Gobi deserts regions over the northwestern China, 
+
+  The $\sim$50\% reduction in the posterior dust emission estimates suggests the use of DEAD mobilization scheme with GOCART source function possibly tends to produce a systematic positive bias over the Taklimakan and Gobi deserts regions over the northwestern China, 
 even it works reasonably for the United States \citep{fairlie07}. 
-Similar results have been also found in top-down dust emission estimates by MODIS aerosol retrievals [Wang et al., 2012], 
-and constrained dust emissions by surface PM measurements [Ku and Park, 2011]. 
+Similar results have been also found in top-down dust emission estimates by MODIS aerosol retrievals \citep{wang12}, 
+and constrained dust emissions by surface PM measurements \citep{ku11}. 
 Such overestimation by the dust mobilization scheme is also reflected through comparison GEOS-Chem AOD 
-(as in Figure \ref{fig:aeronet}) and surface PM10 concentration (as in Figure \ref{fig:pm10}) with in situ measurements near the dust source regions. 
+(as in Figure \ref{fig:aeronet}) and surface PM\textsubscript{10} conentration (as in Figure \ref{fig:pm10}) with in situ measurements near the dust source regions. 
 
 
-\section{Summary}
+\section{Summary} \label{sec:invsummary}
 
  This study presents a two-stage inversion scheme to explore the capacity of using satellite radiance for inversion of species-specific aerosol emissions.
  Firstly, we prepare the observational constraints of AOD using an advanced aerosol retrieval algorithm,
- which integrates the GEOS-Chem aerosol optical properties to the MODIS observed radiance [Wang et al., 2010].
+ which integrates the GEOS-Chem aerosol optical properties to the MODIS observed radiance \citep{wang10}.
  Secondly, the adjoint of the GEOS-Chem chemical transport model is applied to statistically optimize aerosol emission estimates using these AOD retrievals.
  Thus, the MODIS radiances are essentially used to optimize the estimates of the emitted aerosol tracers and precursors.
  We illustrate our concept first with an idealized numerical experiment,
@@ -705,17 +805,17 @@ The inversion yields posterior best estimates of 1.73 Tg for \ce{SO2}, 0.72 Tg f
  \item Anthropogenic \ce{SO2} emissions over China has been decreased by 5$-$10\% from 2006 to 2008;
  \item Anthropogenic BC/OC emissions may be slightly reduced;
  \item Anthropogenic emissions of \ce{SO2} and \ce{NOx} reported in the INTEX-B and \ce{NH3} from TRACE-P inventories could have been artificially overestimated;
- \item The DEAD mobilization scheme combined with GOCART dust source function, even works well over the United State \citep{farelie07}, seems to simulate mineral dust surface fluxes with a systematic positive bias.  
+ \item The DEAD mobilization scheme combined with GOCART dust source function, even works well over the United State \citep{fairlie07}, seems to simulate mineral dust surface fluxes with a systematic positive bias.  
  \end{itemize}
   
  As a first attempt to invert species-specific emissions with satellite radiance, this study has a number of limitations.
- Those limitations may impact the uncertainty in posterior emissions, which is supposed to be smaller than uncertainty characterizing either a priori or observational constraints [Rodgers, 2000].
+ Those limitations may impact the uncertainty in posterior emissions, which is supposed to be smaller than uncertainty characterizing either a priori or observational constraints \citep{rodgers00}.
   While quantification of these is beyond the demonstrative purposes of this paper, we present a qualitative discussion as follows.
  First, in the stage of aerosol retrieval, we presume aerosol composition is unbiased, and contains errors only in the total amount.
  As the model inevitably has bias associating aerosol types, improvement of this assumption over regional to global scale can be obtained from innovative satellite measurements.
  Indeed, the radiance observations have potential information on the aerosol composition.
- For example, the spectral behavior of the radiance is used to discriminate smoke from mineral dust particles [King et al., 1999; Kaufman et al., 2002].
- Radiances measured from multi-viewing-angle are sensitive to aerosol particle size and nonsphericity [Kahn et al., 2005].
+ For example, the spectral behavior of the radiance is used to discriminate smoke from mineral dust particles \citep{king99,kaufman02}.
+ Radiances measured from multi-viewing-angle are sensitive to aerosol particle size and nonsphericity \citep{martonchik09}.
  Temporal variation and geographical location can also yield information about aerosol composition.
  For example, increase of AOD in semi-arid region may reflect the increase of dust, while change of AOD in the Eastern Asia may reflect the increase of industrial emission.
  Hence, as showed in this study, a combined use of the model-based knowledge of the dominant aerosol sources and the source-receptor relationship together with the satellite-based temporal variation of AOD at different locations can be a strong constraint for species-specific source estimates.
