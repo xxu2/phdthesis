@@ -1,15 +1,38 @@
-% Chapter 2
+%% Chapter 2
+%% NOTES: :set tw=79 to set the text width and also make sure 
+%%        :set formatoptions+=t
 \chapter{Top-Down Inversion Framework}
 
- \textit{Overview} \hspace{0.2cm}
- Mathematically, solving an inverse problem involves two types of development, 
- i.e., the forward modeling and inverse modeling. This chapter presents 
- how the physical process that mineral dust
- involved are quantitatively respresented in a chemistry transport model, i.e.,
- the GEOS-Chem model. These processes include the uplifting of dust from soil surface,
- the transport within the atmosphere, and despoistion of dust to the surface.
+ \section{Introduction}
+ After emiting into atmosphere, aerosol particles undergo various 
+processes including turbulent mixing, chemistry, convection, and tranport
+before removed from the atmosphere via dry and wet depositions. Satellite
+measurements, like AOD, provide indeed a snapshot of the aerosol distribution
+in the atmosphere. Therefore, Contraining aerosol emissions from satellite
+remote sensing observations involves two types of development, i.e., the
+forward modeling and inverse modeling. Mathematically, the forward modeling
+constructs a complete a physical system to predict the outcome of measurements. 
+The inverse modeling uses the actual measurements to infer the values of the
+parameters that characterize the system. Particularly for this work (Figure
+\ref{fig:td_flow}), we use the GEOS-Chem chemistry transport model as the
+forward operator to simulate the relevant satellite measurements. The GEOS-Chem
+adjoint model is used to seek the improved aerosol emission estimates and dust
+source parameterization from these measurements.
 
-\section{Inversion Theory and Infrastructure}
+In the following sections of this chapter, I first briefly present the
+inverse problem theories (\ref{sec:inv}),
+then describe the GEOS-Chem chemistry transport model that acts as forward 
+operator (model) in the inversion framework (\ref{sec:gc}), and finally
+introduce the developement of the adjoit of GEOS-Chem model (\ref{sec:gcadj}).
+
+ \begin{figure}[t]
+  \centering
+  \includegraphics[width={\textwidth}]{figures/201.pdf}
+  \caption{Flowchart of the proposed top-down inversion framework}
+  \label{fig:td_flow}
+ \end{figure}
+
+\section{Inverse Problem Theory} \label{sec:inv}
 
 Let $\mathbf{x}$ denote a state vector of $n$ parameters to be constrained
  and $\mathbf{y}$ an observation vector assembled by $m$ measurements,
